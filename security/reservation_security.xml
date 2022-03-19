@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="reservation_user_only" model="ir.rule">
+		    <field name="name">reservation_user</field>
+		    <field name="model_id" ref="reservation.model_reservation_reservation"/>
+		    <field name="groups" eval="[(4, ref('reservation.group_reservation_users'))]"/>
+		    <field name="perm_read" eval="1"/>
+		    <field name="perm_write" eval="1"/>
+		    <field name="perm_create" eval="0"/>
+		    <field name="perm_unlink" eval="0" />
+		    <field name="domain_force">[('state', '!=', 'validated')]</field>
+		</record>
+	</data>
+</odoo>

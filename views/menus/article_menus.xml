@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+	    <!-- menu categories -->
+		<menuitem name="Article"
+		          id="article_category"
+		          parent="reservation.gestion_des_reservations_menu_root"/>
+
+		<!-- actions -->
+		<menuitem name="List of article"
+		          id="article_list"
+		          parent="article_category"
+		          action="reservation_article_act_window"/>
+	</data>
+</odoo>

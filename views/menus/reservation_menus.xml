@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- Top menu item -->
+	    <menuitem name="Reservation management" id="reservation.gestion_des_reservations_menu_root"/>
+
+	    <!-- menu categories -->
+
+	    <menuitem name="Reservation"
+	              id="reservation.reservation_category"
+	              parent="reservation.gestion_des_reservations_menu_root"/>
+
+	    <!-- actions -->
+
+	    <menuitem name="Reservation"
+	              id="reservation.reservation"
+	              parent="reservation.reservation_category"/>
+
+	    <menuitem name="My reservation"
+	              id="reservation.my_reservation"
+	              parent="reservation.reservation"
+	              action="reservation.reservation_user_action_window"/>
+	    <menuitem name="All reservation"
+	              id="all_reservation"
+	              parent="reservation.reservation"
+	              action="reservation.reservation_all_action_window"/>
+
+	    <menuitem name="Analyse"
+	              id="reservation_analyse"
+	              groups="reservation.group_reservation_manager"
+	              parent="reservation_category"/>
+
+		<menuitem name="Client" id="analyse_client"
+		          parent="reservation_analyse" action="analyse_client_act_window"/>
+	    <menuitem name="Sale" id="analyse_sale"
+	              parent="reservation_analyse" action="analyse_sale_act_window"/>
+
+	    <menuitem name="Reporting"
+	              id="reservation_reporting"
+	              groups="reservation.group_reservation_manager"
+	              parent="reservation_category"/>
+
+		<menuitem name="My reservation by month" id="reservation_by_month"
+		          parent="reservation_reporting" action="reporting_month_act_window"/>
+	    <menuitem name="My reservation canceled by month" id="reservation_canceled_month"
+	              parent="reservation_reporting" action="reporting_canceled_month_act_window"/>
+	    <menuitem name="Total hours reserved by month" id="total_hours_month"
+	              parent="reservation_reporting" action="reporting_hours_month_act_window"/>
+
+	</data>
+</odoo>

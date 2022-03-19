@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="reservation_sale_order_tree" model="ir.ui.view">
+			<field name="name">reservation_sale_order_tree</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="reservation_ids"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="reservation_sale_order_form" model="ir.ui.view">
+			<field name="name">reservation_sale_order_form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//div[@name='button_box']">
+					<button type="object" name="open_view_reservations"
+					        class="oe_stat_button"
+					        position="inside"
+					        icon="fa-shopping-cart"
+							attrs="{'invisible': [('total_reservation', '=', 0)]}">
+						<field name="total_reservation" widget="statinfo" string="Reservations"/>
+					</button>
+				</xpath>
+				<xpath expr="//form//sheet//notebook//page[@name='order_lines']" position="before" >
+					<page string="List of reservations">
+						<field name="reservation_ids">
+								<!-- <tree>
+									<field name="reference" />
+									<field name="client_id"/>
+								</tree>-->
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+		<!-- actions opening views on models -->
+
+		<record id="reservation_sale_order_act_window" model="ir.actions.act_window">
+			<field name="name">management reservation window</field>
+			<field name="res_model">sale.order</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+	</data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- menu categories -->
+	    <menuitem name="Quote"
+		          id="quote_category"
+	              groups="reservation.group_reservation_manager"
+		          parent="reservation.gestion_des_reservations_menu_root"/>
+
+		<!-- actions -->
+		<menuitem name="List of quote"
+		          id="reservation_devis_tree"
+		          parent="quote_category"
+		          action="reservation_sale_order_act_window"/>
+
+	</data>
+</odoo>
