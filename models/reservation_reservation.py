@@ -8,7 +8,7 @@ class Reservation(models.Model):
 
 	reference = fields.Char('Reference', readonly=True, required=True, default='/')
 	client_id = fields.Many2one('res.users', 'Client', required=True)
-	article_id = fields.Many2one('reservation.article', 'Article', required=True)
+	article_id = fields.Many2one('product.product', 'Article', required=True)
 	reservation_date = fields.Date('Reservation date', required=True)
 	reservation_duration_hours = fields.Integer('Duration in hours')
 	reservation_duration_day = fields.Integer('Duration in day')
@@ -21,7 +21,7 @@ class Reservation(models.Model):
 					('canceled', 'Canceled')], default='new')
 	devis_id = fields.Many2one('sale.order', 'Quote')
 	partner_id = fields.Many2one('res.partner', related='devis_id.partner_id', string='Partner')
-	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=True)
+	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=True, readonly=True)
 
 	@api.model
 	def create(self, vals):
@@ -79,6 +79,7 @@ class Reservation(models.Model):
 		sale_order_cost = self.devis_id.create({
 			'date_order': datetime.datetime.now().strftime('%Y-%m-%d %H:%M'),
 			'name': self.reference,
+			'active_devis': True,
 			'order_line': [
 				(0, 0, {'price_unit': price, 'product_uom_qty': duration, 'product_id': self.article_id.id})
 			],
@@ -94,6 +95,7 @@ class Reservation(models.Model):
 			reserve = [record for record in self if record.client_id == user]
 			sale_order_cost = self.env['sale.order'].create({
 				'partner_id': user.partner_id.id,
+				'active_devis': True,
 			})
 			for res in reserve:
 				if res.state == 'validated':
@@ -116,8 +118,8 @@ class Reservation(models.Model):
 
 	def _compute_total_duration_hours(self):
 		for rec in self:
-			rec.total_duration_hours = rec.reservation_duration_hours + \
-									   (rec.reservation_duration_month*30 + rec.reservation_duration_day)*24
+			rec.total_duration_hours = rec.reservation_duration_hours + (rec.reservation_duration_month*30 + rec.reservation_duration_day)*24
+
 
 
 	# @api.constrains('reservation_duration_hours','reservation_duration_day')

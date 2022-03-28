@@ -6,6 +6,7 @@ class SaleOrder(models.Model):
 
 	reservation_ids = fields.One2many('reservation.reservation', 'devis_id', string='Reservation')
 	total_reservation = fields.Integer('Total reservation', compute='_compute_total_reservation')
+	active_devis = fields.Boolean(default=False)
 
 	def _compute_total_reservation(self):
 		for r in self:

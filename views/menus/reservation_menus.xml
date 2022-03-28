@@ -19,11 +19,11 @@
 	    <menuitem name="My reservation"
 	              id="reservation.my_reservation"
 	              parent="reservation.reservation"
-	              action="reservation.reservation_user_action_window"/>
+	              action="reservation.reservations_user_action_window"/>
 	    <menuitem name="All reservation"
 	              id="all_reservation"
 	              parent="reservation.reservation"
-	              action="reservation.reservation_all_action_window"/>
+	              action="reservation.reservation_all_action_window'"/>
 
 	    <menuitem name="Analyse"
 	              id="reservation_analyse"

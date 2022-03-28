@@ -9,7 +9,7 @@
 		    <field name="perm_write" eval="1"/>
 		    <field name="perm_create" eval="0"/>
 		    <field name="perm_unlink" eval="0" />
-		    <field name="domain_force">[('state', '!=', 'validated')]</field>
+		    <field name="domain_force">[('state', '!=', 'canceled')]</field>
 		</record>
 	</data>
 </odoo>

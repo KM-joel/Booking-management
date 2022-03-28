@@ -20,22 +20,22 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale'],
+    'depends': ['base','sale','product'],
     'application': True,
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/reservation_groups.xml',
         'security/reservation_security.xml',
-        'views/menus/reservation_menus.xml',
-        'views/menus/article_menus.xml',
-        'views/menus/sale_order_menus.xml',
+        'security/ir.model.access.csv',
         'views/reservation_reservation_views.xml',
+        'views/menus/reservation_menus.xml',
+        'views/reservation_article_views.xml',
+        'views/menus/article_menus.xml',
+        'views/sale_order_views.xml',
+        'views/menus/sale_order_menus.xml',
         'data/reservation_reference_sequence.xml',
         'data/reservation_many_quotation.xml',
-        'views/reservation_article_views.xml',
-        'views/sale_order_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

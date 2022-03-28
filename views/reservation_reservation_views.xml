@@ -23,17 +23,6 @@
       </field>
     </record>
 
-    <record model="ir.ui.view" id="reservation_partner_tree">
-      <field name="name">reservation_tree</field>
-      <field name="model">reservation.reservation</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="devis_id"/>
-          <field name="partner_id"/>
-        </tree>
-      </field>
-    </record>
-
     <!-- explicit form view definition -->
 
     <record model="ir.ui.view" id="reservation_form">
@@ -177,13 +166,13 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="reservation.reservation_all_action_window">
+    <record model="ir.actions.act_window" id="reservation.reservation_all_action_window'">
       <field name="name">Reservation all</field>
       <field name="res_model">reservation.reservation</field>
       <field name="view_mode">tree,form,kanban,search</field>
     </record>
 
-    <record model="ir.actions.act_window" id="reservation.reservation_user_action_window">
+    <record model="ir.actions.act_window" id="reservation.reservations_user_action_window">
       <field name="name">Reservation all for connected user</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">reservation.reservation</field>
@@ -196,16 +185,15 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">sale.order</field>
       <field name="view_mode">tree</field>
-      <field name="domain">[('reservation_ids.state', '=', 'validated')]</field>
+      <field name="domain">[('reservation_ids.state', '=', ['new', 'confirmed', 'validated'])]</field>
     </record>
 
     <record model="ir.actions.act_window" id="analyse_sale_act_window">
       <field name="name">All the quote created since reservation</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">reservation.reservation</field>
-      <field name="view_id" ref="reservation_partner_tree"/>
+      <field name="res_model">sale.order</field>
       <field name="view_mode">tree</field>
-      <field name="domain">[]</field>
+      <field name="domain">[('active_devis', '=', True)]</field>
     </record>
 
     <record model="ir.actions.act_window" id="reporting_month_act_window">
