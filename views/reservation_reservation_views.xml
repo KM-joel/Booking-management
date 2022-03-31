@@ -145,7 +145,7 @@
           <filter string="Annulee" name="filter_by_canceled" domain="[('state', '=', 'canceled')]"/>
           <group string="Group by">
             <filter name="by_client" string="Client" context="{'group_by': 'client_id'}"/>
-            <filter name="by_reservation" string="Date de reservation" context="{'group_by': 'reservation_date'}"/>
+            <filter name="by_reservation" string="Date de reservation" context="{'group_by': 'reservation_date:month'}"/>
             <filter name="by_article" string="Article" context="{'group_by': 'article_id'}"/>
           </group>
         </search>
@@ -164,9 +164,19 @@
       </field>
     </record>
 
+    <record model="ir.ui.view" id="reservation_pivot">
+      <field name="name">reservation_pivot</field>
+      <field name="model">reservation.reservation</field>
+      <field name="arch" type="xml">
+        <pivot>
+          <field name="total_duration_hours" type="measure"/>
+        </pivot>
+      </field>
+    </record>
+
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="reservation.reservation_all_action_window'">
+    <record model="ir.actions.act_window" id="reservation.reservation_all_action_window">
       <field name="name">Reservation all</field>
       <field name="res_model">reservation.reservation</field>
       <field name="view_mode">tree,form,kanban,search</field>
@@ -183,9 +193,9 @@
     <record model="ir.actions.act_window" id="analyse_client_act_window">
       <field name="name">All client who have made at least one reservation</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">sale.order</field>
+      <field name="res_model">res.users</field>
       <field name="view_mode">tree</field>
-      <field name="domain">[('reservation_ids.state', '=', ['new', 'confirmed', 'validated'])]</field>
+      <field name="domain">[('reservation_ids.state', 'in', ['new', 'confirmed', 'validated'])]</field>
     </record>
 
     <record model="ir.actions.act_window" id="analyse_sale_act_window">
@@ -201,8 +211,8 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">reservation.reservation</field>
       <field name="view_mode">pivot,graph</field>
-<!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
-<!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
+      <field name="context">{'group_by': 'reservation_date:month'}</field>
+      <field name="domain">[('state', '!=', 'canceled')]</field>
 <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
     </record>
 
@@ -212,6 +222,7 @@
       <field name="res_model">reservation.reservation</field>
       <field name="view_mode">pivot,graph</field>
       <field name="domain">[('state', '=', 'canceled')]</field>
+      <field name="context">{'group_by': 'reservation_date:month'}</field>
 <!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
 <!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
 <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
@@ -222,8 +233,10 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">reservation.reservation</field>
       <field name="view_mode">pivot</field>
-      <field name="context">{'search_default_group_by_reservation_date': 1, 'pivot_measures': ['total_duration_hours']}</field>
-<!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
+      <field name="view_id" ref="reservation.reservation_pivot"/>
+      <field name="domain">[('state', 'not in', ['new', 'canceled'])]</field>
+      <field name="context">{'group_by': 'reservation_date:month'}</field>
+<!--      <field name="context">{'group_by': 'reservation_date:month'}</field>'search_default_group_by_reservation_date': 1,, 'pivot_measures': ['total_duration_hours']-->
 <!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
 <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
     </record>

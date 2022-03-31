@@ -26,7 +26,7 @@
     # always loaded
     'data': [
         'security/reservation_groups.xml',
-        'security/reservation_security.xml',
+        #'security/reservation_security.xml',
         'security/ir.model.access.csv',
         'views/reservation_reservation_views.xml',
         'views/menus/reservation_menus.xml',
@@ -39,6 +39,6 @@
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        #'demo/demo.xml',
     ],
 }

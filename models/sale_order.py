@@ -15,12 +15,25 @@ class SaleOrder(models.Model):
 	def open_view_reservations(self):
 		action = self.env['ir.actions.act_window']._for_xml_id('reservation.reservation_all_action_window')
 		if self.total_reservation > 1:
-			action['domain'] = [('id', 'in', self.reservation_ids.ids)]
-		elif self.reservation_ids:
-			tree_view = [(self.env.ref('reservation.reservation_tree').id, 'tree')]
-			action['view_mode'] = tree_view
+			action['view_mode'] = 'tree,form'
 			action['res_id'] = self.reservation_ids.id
+			action['views'] = []
+		else:
+			action['domain'] = [('id', 'in', self.reservation_ids.ids)]
 		return action
+
+
+	# def open_expenses_action(self):
+	# 	action = self.env['ir.actions.act_window']._for_xml_id('hr_expense.action_hr_expense_sheet_all_all')
+	# 	action['context'] = {
+	# 		'search_default_approved': 1,
+	# 		'search_default_to_post': 1,
+	# 		'search_default_journal_id': self.id,
+	# 		'default_journal_id': self.id,
+	# 	}
+	# 	action['view_mode'] = 'tree,form'
+	# 	action['views'] = [(k, v) for k, v in action['views'] if v in ['tree', 'form']]
+	# 	return action
 
 
 
