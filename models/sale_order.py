@@ -34,6 +34,15 @@ class SaleOrder(models.Model):
 	# 	action['view_mode'] = 'tree,form'
 	# 	action['views'] = [(k, v) for k, v in action['views'] if v in ['tree', 'form']]
 	# 	return action
+	# def action_anim_method(self):
+	# 	print('Action in animation when confirmed reservation & effect arc_en_ciel')
+	# 	return {
+	# 		'effect': {
+	# 			'fadeout': 'slow',
+	# 			'message': 'Your reservation is validated',
+	# 			'type': 'rainbow_man'
+	# 		}
+	# 	}
 
 
 
