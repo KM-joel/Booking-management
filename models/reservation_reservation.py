@@ -4,22 +4,23 @@ import datetime
 
 class Reservation(models.Model):
 	_name = 'reservation.reservation'
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_description = 'management of reservation'
 
-	reference = fields.Char('Reference', readonly=True, required=True, default='/')
-	client_id = fields.Many2one('res.users', 'Client', required=True)
-	article_id = fields.Many2one('reservation.article', 'Article', required=True)
-	reservation_date = fields.Date('Reservation date', required=True)
+	reference = fields.Char('Reference', readonly=True, required=True, default='/', tracking=True)
+	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=True)
+	article_ids = fields.Many2many('reservation.article', required=True, tracking=True)
+	reservation_date = fields.Date('Reservation date', required=True, tracking=True)
 	reservation_duration_hours = fields.Integer('Duration in hours')
 	reservation_duration_day = fields.Integer('Duration in day')
 	reservation_duration_month = fields.Integer('Durartion in month')
-	end_date_reservation = fields.Date('End date of reservation', readonly=True, compute='_compute_end_date_reservation')
+	end_date_reservation = fields.Date('End date of reservation', readonly=True, tracking=True, compute='_compute_end_date_reservation')
 	state = fields.Selection([
 					('new', 'New'),
 					('confirmed', 'Confirmed'),
 					('validated', 'Validated'),
-					('canceled', 'Canceled')], default='new')
-	devis_id = fields.Many2one('sale.order', 'Quote')
+					('canceled', 'Canceled')], default='new', tracking=True)
+	devis_id = fields.Many2one('sale.order', 'Quote', tracking=True)
 	partner_id = fields.Many2one('res.partner', related='devis_id.partner_id', string='Partner')
 	total_duration_hours = fields.Float('Total duration hours', readonly=True, store=True, compute='_compute_total_duration_hours')
 
@@ -33,7 +34,7 @@ class Reservation(models.Model):
 	def name_get(self):
 		result = []
 		for reserv in self:
-			name = '[' + reserv.reference + '] ' + reserv.client_id.display_name + ' / ' + reserv.article_id.name_article
+			name = '[' + str(reserv.reference) + '] ' + str(reserv.client_id.display_name) + ' / ' + str(reserv.article_ids.name_article)
 			result.append((reserv.id, name))
 		return result
 
@@ -83,7 +84,7 @@ class Reservation(models.Model):
 				'name': self.reference,
 				'active_devis': True,
 				'order_line': [
-					(0, 0, {'price_unit': price, 'product_uom_qty': duration, 'product_id': self.article_id.id})
+					(0, 0, {'price_unit': price, 'product_uom_qty': duration, 'product_id': self.article_ids.id})
 				],
 				'partner_id': self.client_id.partner_id.id,
 				'pricelist_id': order.pricelist_id.id
@@ -111,7 +112,7 @@ class Reservation(models.Model):
 						'name': res.reference,
 						'price_unit': price,
 						'product_uom_qty': duration,
-						'product_id': res.article_id.id
+						'product_id': res.article_ids.id
 					})]
 					res.devis_id = sale_order_cost
 				else:

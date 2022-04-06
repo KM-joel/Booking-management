@@ -8,6 +8,7 @@ class ReservationArticle(models.Model):
 
     name_article = fields.Char(string='Name of article', required=True)
     description_article = fields.Text(string='Description of article')
+    reservation_id = fields.Many2many('Resevation')
 
 
     # @api.depends('value')
