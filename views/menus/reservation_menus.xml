@@ -2,7 +2,7 @@
 <odoo>
 	<data>
 		<!-- Top menu item -->
-	    <menuitem name="Reservation management"
+	    <menuitem name="Booking"
 	              web_icon="reservation,static/description/icon.png"
 	              id="reservation.gestion_des_reservations_menu_root"/>
 

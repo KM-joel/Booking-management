@@ -11,7 +11,7 @@
     """,
 
     'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'website': "https://karizma-conseil.com/",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale'],
+    'depends': ['base','sale', 'product'],
     'application': True,
 
     # always loaded

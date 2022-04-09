@@ -2,13 +2,9 @@ from odoo import models, fields, api
 
 
 class ReservationArticle(models.Model):
-    _name = 'reservation.article'
-    _description = 'management of article'
-    _rec_name = 'name_article'
+    _inherit = 'product.product'
 
-    name_article = fields.Char(string='Name of article', required=True)
-    description_article = fields.Text(string='Description of article')
-    reservation_id = fields.Many2many('Resevation')
+    reservation_id = fields.Many2one('reservation.reservation', 'Resevation')
 
 
     # @api.depends('value')

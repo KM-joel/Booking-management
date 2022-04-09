@@ -9,7 +9,7 @@ class Reservation(models.Model):
 
 	reference = fields.Char('Reference', readonly=True, required=True, default='/', tracking=True)
 	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=True)
-	article_ids = fields.Many2many('reservation.article', required=True, tracking=True)
+	article_ids = fields.One2many('product.product', 'reservation_id',required=True, tracking=True)
 	reservation_date = fields.Date('Reservation date', required=True, tracking=True)
 	reservation_duration_hours = fields.Integer('Duration in hours')
 	reservation_duration_day = fields.Integer('Duration in day')
@@ -34,7 +34,7 @@ class Reservation(models.Model):
 	def name_get(self):
 		result = []
 		for reserv in self:
-			name = '[' + str(reserv.reference) + '] ' + str(reserv.client_id.display_name) + ' / ' + str(reserv.article_ids.name_article)
+			name = '[' + str(reserv.reference) + '] ' + str(reserv.client_id.display_name) + ' / ' + str(reserv.article_ids.name)
 			result.append((reserv.id, name))
 		return result
 
