@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="portal_my_home_booking_app" name="Applications" inherit_id="portal.portal_my_home" priority="45">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Reservations</t>
+                    <t t-set="url" t-value="'/my/reservation/'"/>
+                    <t t-set="count" t-value="reservations_count"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_reservations" name="My Reservations">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Reservations</t>
+                    <div class="form-inline ml-lg-2">
+                        <a id="submit-ticket" t-attf-href="#">
+                            <button t-attf-class="btn btn-info btn-sm">
+                                CREER
+                            </button>
+                        </a>
+                    </div>
+                </t>
+                <t t-if="not reservations">
+                    <p>no reservations.</p>
+                </t>
+                <t t-if="reservations" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th>Reference</th>
+                            <th>Client</th>
+                            <th>Article</th>
+                            <th>Reservation date</th>
+                            <th>Status</th>
+                            <th>End date reservation</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <t t-foreach="reservations" t-as="reservation">
+                            <tr>
+                                <td>
+                                    <a t-attf-href="/my/reservation/#{reservation.id}" style="color: #85AFA8;">
+                                        <small>#</small>
+                                        <span t-field="reservation.reference"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span t-field="reservation.client_id"></span>
+                                </td>
+                                <td>
+                                    <span t-field="reservation.article_id"></span>
+                                </td>
+                                <td>
+                                    <span t-field="reservation.reservation_date"></span>
+                                </td>
+                                <td>
+                                    <span t-field="reservation.state"></span>
+                                </td>
+                                <td>
+                                    <span t-field="reservation.end_date_reservation"></span>
+                                </td>
+
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

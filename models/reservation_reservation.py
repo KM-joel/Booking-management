@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 import datetime
 
 class Reservation(models.Model):
-	_name = 'reservation.reservation'
+	_name = 'booking.management.reservation'
 	_description = 'management of reservation'
 
 	reference = fields.Char('Reference', readonly=True, required=True, default='/')
@@ -33,7 +33,7 @@ class Reservation(models.Model):
 	def name_get(self):
 		result = []
 		for reserv in self:
-			name = '[' + reserv.reference + '] ' + reserv.client_id.display_name + ' / ' + reserv.article_id.name_article
+			name = '[' + reserv.reference + '] ' + reserv.client_id.display_name + ' / ' + reserv.article_id.name
 			result.append((reserv.id, name))
 		return result
 

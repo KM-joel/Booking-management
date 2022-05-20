@@ -4,7 +4,7 @@
 
 		<record id="gestion_des_reservations_article_form" model="ir.ui.view">
 			<field name="name">gestion des reservations article form</field>
-			<field name="model">reservation.article</field>
+			<field name="model">booking.management.article</field>
 			<field name="arch" type="xml">
 				<form string="Article">
 					<sheet>
@@ -25,7 +25,7 @@
 
 		<record id="gestion_des_reservations_article_list" model="ir.ui.view">
 			<field name="name">gestion des reservations list</field>
-			<field name="model">reservation.article</field>
+			<field name="model">booking.management.article</field>
 			<field name="arch" type="xml">
 				<tree string="Article">
 					<field name="name_article"/>
@@ -50,8 +50,19 @@
 
 		<record id="reservation_article_act_window" model="ir.actions.act_window">
 			<field name="name">gestion des reservations window</field>
-			<field name="res_model">reservation.article</field>
+			<field name="res_model">booking.management.article</field>
 			<field name="view_mode">tree,form</field>
 		</record>
+
+		 <!-- menu categories -->
+		<menuitem name="Article"
+		          id="article_category"
+		          parent="booking_management.gestion_des_reservations_menu_root"/>
+
+		<!-- actions -->
+		<menuitem name="List of article"
+		          id="article_list"
+		          parent="article_category"
+		          action="reservation_article_act_window"/>
 	</data>
 </odoo>

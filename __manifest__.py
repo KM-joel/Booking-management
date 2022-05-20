@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "gestion des reservations",
+    'name': "BOOKING",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -20,25 +20,26 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale'],
+    'depends': ['base','sale', 'website', 'hr', 'hr_recruitment'],
     'application': True,
 
     # always loaded
     'data': [
-        'security/reservation_groups.xml',
-        'security/reservation_security.xml',
-        'security/ir.model.access.csv',
+        # 'security/reservation_groups.xml',
+        # 'security/reservation_security.xml',
+        # 'views/menus/reservation_menus.xml',
+        # 'views/menus/sale_order_menus.xml',
+        # 'views/menus/article_menus.xml',
         'views/reservation_reservation_views.xml',
-        'views/menus/reservation_menus.xml',
+        'security/ir.model.access.csv',
         'views/reservation_article_views.xml',
-        'views/menus/article_menus.xml',
         'views/sale_order_views.xml',
-        'views/menus/sale_order_menus.xml',
         'data/reservation_reference_sequence.xml',
         'data/reservation_many_quotation.xml',
+        'views/templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        # 'demo/demo.xml',
     ],
 }

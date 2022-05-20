@@ -4,7 +4,7 @@
 
     <record model="ir.ui.view" id="reservation_tree">
       <field name="name">reservation_tree</field>
-      <field name="model">reservation.reservation</field>
+      <field name="model">booking.management.reservation</field>
       <field name="arch" type="xml">
         <tree>
           <field name="reference"/>
@@ -27,7 +27,7 @@
 
     <record model="ir.ui.view" id="reservation_form">
       <field name="name">reservation_form</field>
-      <field name="model">reservation.reservation</field>
+      <field name="model">booking.management.reservation</field>
       <field name="arch" type="xml">
         <form>
           <header>
@@ -87,7 +87,7 @@
 
     <record id="reservation_kanban" model="ir.ui.view">
       <field name="name">gestion des reservations kanban</field>
-      <field name="model">reservation.reservation</field>
+      <field name="model">booking.management.reservation</field>
       <field name="arch" type="xml">
           <kanban class="o_res_partner_kanban">
             <templates>
@@ -130,7 +130,7 @@
 
     <record model="ir.ui.view" id="reservation_search">
       <field name="name">reservation_search</field>
-      <field name="model">reservation.reservation</field>
+      <field name="model">booking.management.reservation</field>
       <field name="arch" type="xml">
         <search string="Search par reservation">
           <field name="reference"/>
@@ -156,7 +156,7 @@
 
     <record model="ir.ui.view" id="reservation_graph">
       <field name="name">reservation_graph</field>
-      <field name="model">reservation.reservation</field>
+      <field name="model">booking.management.reservation</field>
       <field name="arch" type="xml">
         <graph type="pie">
           <field name="reservation_date" interval="month"/>
@@ -166,16 +166,16 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="reservation.reservation_all_action_window'">
+    <record model="ir.actions.act_window" id="booking_management.reservation_all_action_window'">
       <field name="name">Reservation all</field>
-      <field name="res_model">reservation.reservation</field>
+      <field name="res_model">booking.management.reservation</field>
       <field name="view_mode">tree,form,kanban,search</field>
     </record>
 
-    <record model="ir.actions.act_window" id="reservation.reservations_user_action_window">
+    <record model="ir.actions.act_window" id="booking_management.reservations_user_action_window">
       <field name="name">Reservation all for connected user</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">reservation.reservation</field>
+      <field name="res_model">booking.management.reservation</field>
       <field name="view_mode">tree,form</field>
       <field name="domain">[('client_id', '=', uid)]</field>
     </record>
@@ -199,7 +199,7 @@
     <record model="ir.actions.act_window" id="reporting_month_act_window">
       <field name="name">My reservation by month</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">reservation.reservation</field>
+      <field name="res_model">booking.management.reservation</field>
       <field name="view_mode">pivot,graph</field>
 <!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
 <!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
@@ -209,7 +209,7 @@
     <record model="ir.actions.act_window" id="reporting_canceled_month_act_window">
       <field name="name">My reservation canceled by month</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">reservation.reservation</field>
+      <field name="res_model">booking.management.reservation</field>
       <field name="view_mode">pivot,graph</field>
       <field name="domain">[('state', '=', 'canceled')]</field>
 <!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
@@ -220,12 +220,58 @@
     <record model="ir.actions.act_window" id="reporting_hours_month_act_window">
       <field name="name">Total reservation hours by month</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">reservation.reservation</field>
+      <field name="res_model">booking.management.reservation</field>
       <field name="view_mode">pivot</field>
       <field name="context">{'search_default_group_by_reservation_date': 1, 'pivot_measures': ['total_duration_hours']}</field>
 <!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
 <!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
 <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
     </record>
+
+    <!-- Top menu item -->
+	    <menuitem name="Reservation" id="booking_management.gestion_des_reservations_menu_root"/>
+
+	    <!-- menu categories -->
+
+	    <menuitem name="Reservation"
+	              id="booking_management.reservation_category"
+	              parent="booking_management.gestion_des_reservations_menu_root"/>
+
+	    <!-- actions -->
+
+	    <menuitem name="Reservation"
+	              id="booking_management.reservation"
+	              parent="booking_management.reservation_category"/>
+
+	    <menuitem name="My reservation"
+	              id="booking_management.my_reservation"
+	              parent="booking_management.reservation"
+	              action="booking_management.reservations_user_action_window"/>
+	    <menuitem name="All reservation"
+	              id="all_reservation"
+	              parent="booking_management.reservation"
+	              action="booking_management.reservation_all_action_window'"/>
+
+	    <menuitem name="Analyse"
+	              id="reservation_analyse"
+	              parent="reservation_category"/>
+<!--	              groups="booking.management.group_reservation_manager"-->
+
+		<menuitem name="Client" id="analyse_client"
+		          parent="reservation_analyse" action="analyse_client_act_window"/>
+	    <menuitem name="Sale" id="analyse_sale"
+	              parent="reservation_analyse" action="analyse_sale_act_window"/>
+
+	    <menuitem name="Reporting"
+	              id="reservation_reporting"
+	              parent="reservation_category"/>
+<!--	              groups="booking.management.group_reservation_manager"-->
+
+		<menuitem name="My reservation by month" id="reservation_by_month"
+		          parent="reservation_reporting" action="reporting_month_act_window"/>
+	    <menuitem name="My reservation canceled by month" id="reservation_canceled_month"
+	              parent="reservation_reporting" action="reporting_canceled_month_act_window"/>
+	    <menuitem name="Total hours reserved by month" id="total_hours_month"
+	              parent="reservation_reporting" action="reporting_hours_month_act_window"/>
   </data>
 </odoo>

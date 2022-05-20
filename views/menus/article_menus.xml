@@ -4,7 +4,7 @@
 	    <!-- menu categories -->
 		<menuitem name="Article"
 		          id="article_category"
-		          parent="reservation.gestion_des_reservations_menu_root"/>
+		          parent="booking.management.gestion_des_reservations_menu_root"/>
 
 		<!-- actions -->
 		<menuitem name="List of article"

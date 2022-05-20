@@ -2,7 +2,7 @@ from odoo import models, fields, api
 
 
 class ReservationArticle(models.Model):
-    _name = 'reservation.article'
+    _name = 'booking.management.article'
     _description = 'management of article'
     _rec_name = 'name_article'
 
