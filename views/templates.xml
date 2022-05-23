@@ -5,7 +5,7 @@
             <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
                 <t t-call="portal.portal_docs_entry">
                     <t t-set="title">Reservations</t>
-                    <t t-set="url" t-value="'/my/reservation/'"/>
+                    <t t-set="url" t-value="'/my/reservation'"/>
                     <t t-set="count" t-value="reservations_count"/>
                 </t>
             </xpath>
@@ -17,8 +17,8 @@
                 <t t-call="portal.portal_searchbar">
                     <t t-set="title">Reservations</t>
                     <div class="form-inline ml-lg-2">
-                        <a id="submit-ticket" t-attf-href="#">
-                            <button t-attf-class="btn btn-info btn-sm">
+                        <a id="submit-ticket" t-attf-href="/reservation/request/">
+                            <button t-attf-class="btn btn-info btn-sm mx-2">
                                 CREER
                             </button>
                         </a>
@@ -58,12 +58,22 @@
                                     <span t-field="reservation.reservation_date"></span>
                                 </td>
                                 <td>
-                                    <span t-field="reservation.state"></span>
+                                    <t t-if="reservation.state == 'new'">
+                                        <span class="badge badge-pill badge-info" t-field="reservation.state"></span>
+                                    </t>
+                                    <t t-if="reservation.state == 'confirmed'">
+                                        <span class="badge badge-pill badge-warning" t-field="reservation.state"></span>
+                                    </t>
+                                    <t t-if="reservation.state == 'validated'">
+                                        <span class="badge badge-pill badge-success" t-field="reservation.state"></span>
+                                    </t>
+                                    <t t-if="reservation.state == 'canceled'">
+                                        <span class="badge badge-pill badge-danger" t-field="reservation.state"></span>
+                                    </t>
                                 </td>
                                 <td>
                                     <span t-field="reservation.end_date_reservation"></span>
                                 </td>
-
                             </tr>
                         </t>
                     </tbody>
@@ -71,5 +81,151 @@
             </t>
         </template>
 
+        <template id="reservation_submit">
+            <t t-set="body_classname" t-value="'o_wprofile_body'"/>
+            <t t-call="website.layout">
+                <div id="wrap" class="o_wprofile_wrap">
+                    <div class="container pt-4 pb-5">
+                        <h1 class="o_page_header">Create reservation</h1>
+                        <t t-call="booking_management.reservation_content"></t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="reservation_content" name="Reservation Portal Template">
+            <div>
+                <form t-attf-action="/reservation/submit_request/" method="post" role="form" name="create_reservation"
+                enctype="multipart/form-data" class="o_wprofile_editor_form js_website_submit_form row">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="url_param" t-att-value="request.params.get('url_param')"/>
+                    <div class="col-md-6">
+                        <div class="row mb-3">
+                            <label for="autoSizingSelect" class="col-sm-4 col-form-label col-form-label-sm">Article</label>
+                            <select id="inputState" class="form-control col-sm-4" name="type_article" required="required">
+                                <option value="">Choise...</option>
+                                <t t-foreach="articles or []" t-as="article">
+                                    <option t-att-value="article.id">
+                                        <t t-esc="article.name"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-4 col-form-label col-form-label-sm">Reservation date</label>
+                            <input type="date" name="reservation_date" class="form-control col-sm-4" id="autoSizingInput"/>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-4 col-form-label col-form-label-sm">End date reservation</label>
+                            <input type="date" name="end_date_reservation" class="form-control col-sm-4" id="autoSizingInput"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-4 col-form-label col-form-label-sm">Duration in hours</label>
+                            <input type="number" name="reservation_duration_hours" class="form-control col-sm-4"/>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-4 col-form-label col-form-label-sm">Duration in day</label>
+                            <input type="number" name="reservation_duration_day" class="form-control col-sm-4" />
+                        </div>
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-4 col-form-label col-form-label-sm">Duration in month</label>
+                            <input type="number" name="reservation_duration_month" class="form-control col-sm-4" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary o_wprofile_submit_btn mt-4">Create</button>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="portal_reservation_page" name="Reservation Portal Details" inherit_id="portal.portal_sidebar">
+            <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+                <div class="row mt16 o_portal_sale_sidebar">
+                <!-- sidebar -->
+                    <t t-call="portal.portal_record_sidebar">
+                        <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                        <t t-set="title">
+                            <h2 class="mb-0"><b t-field="reservation.reference" /></h2>
+                        </t>
+                        <t t-set="entries">
+                            <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                <li class="list-group-item flex-grow-1">
+                                    <div class="btn-toolbar flex-sm-nowrap">
+                                        <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                            <a class="btn btn-secondary btn-block" t-attf-href="/reservation/edit/#{reservation.id}" title="Update">
+                                                <i class="fa fa-edit mx-1"/>Update
+                                            </a>
+                                        </div>
+                                        <div class="btn-group flex-grow-1 mb-1">
+                                            <a class="btn btn-secondary btn-block" t-attf-href="/reservation/update" title="Submit">
+                                                <i class="fa fa-share-square mx-1"/>Submit
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li t-if="reservation.client_id" class="list-group-item flex-grow-1">
+                                    <div class="small mb-1">
+                                        <strong class="text-muted">Reserved Customer</strong>
+                                    </div>
+                                    <div class="row flex-nowrap">
+                                        <div class="col flex-grow-0 pr-2">
+                                           <img class="rounded-circle mr4 float-left o_portal_contact_img"
+                                                t-att-src="image_data_uri(reservation.client_id.avatar_1024)" alt="Client"/>
+                                        </div>
+                                        <div class="col pl-0" style="min-width: 150px">
+                                            <span t-field="reservation.client_id"
+                                                  t-options="{'widget': 'contact', 'field': ['name', 'phone'], 'no_marker': True}"/>
+                                            <a href="#discussion" class="small"><i class="fa fa-comment mx-1"/>Send message</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </t>
+                    </t>
+                    <!-- Page content -->
+                    <div id="reservation_content" class="col-12 col-lg justify-content-end">
+                        <div class="modal fade">
+
+                        </div>
+                        <div id="reservation_communication" class="mt-4">
+                            <h2>History</h2>
+                            <t t-call="portal.message_thread">
+                                <t t-set="object" t-value="reservation"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+            </xpath>
+
+<!--            <t t-call="portal.portal_layout">-->
+<!--                <t t-set="wrapwrap_classes" t-value="'o_portal_bg_dark'"/>-->
+<!--                <t t-call="portal.portal_record_layout">-->
+<!--                    <t t-set="card_header">-->
+<!--                        <div class="row no-gutters">-->
+<!--                            <div class="col-md">-->
+<!--                              <div class="form-inline ml-lg-2" id="button_header">-->
+<!--                                  <a t-attf-href="/reservation/edit/#{reservation.id}">-->
+<!--                                      <button t-attf-class="btn btn-success btn-md">Update</button>-->
+<!--                                  </a>-->
+<!--                                  <a t-attf-href="/reservation/update">-->
+<!--                                      <button t-attf-class="btn btn-info btn-md mx-4">Submit</button>-->
+<!--                                  </a>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md text-center">-->
+<!--                                <h5 class="mb-1 mb-md-0">-->
+<!--                                    <span t-field="reservation.reference"/>-->
+<!--                                </h5>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </t>-->
+<!--                </t>-->
+
+<!--            </t>-->
+        </template>
     </data>
 </odoo>
