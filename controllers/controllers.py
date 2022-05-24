@@ -111,7 +111,6 @@ class PortalReservation(CustomerPortal):
         values.update({
             'reservation': reservation_sudo,
         })
-        print('+++++++++++++++++++++++++++++++++', values)
         return r.render('booking_management.portal_reservation_page', values)
 
 

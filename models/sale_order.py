@@ -13,11 +13,11 @@ class SaleOrder(models.Model):
 			r.total_reservation = len(r.reservation_ids)
 
 	def open_view_reservations(self):
-		action = self.env['ir.actions.act_window']._for_xml_id('booking.management.reservation_all_action_window')
+		action = self.env['ir.actions.act_window']._for_xml_id('booking_management.reservation_all_action_window')
 		if self.total_reservation > 1:
 			action['domain'] = [('id', 'in', self.reservation_ids.ids)]
 		elif self.reservation_ids:
-			tree_view = [(self.env.ref('booking.management.reservation_tree').id, 'tree')]
+			tree_view = [(self.env.ref('booking_management.reservation_tree').id, 'tree')]
 			action['view_mode'] = tree_view
 			action['res_id'] = self.reservation_ids.id
 		return action

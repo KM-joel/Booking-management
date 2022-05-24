@@ -5,6 +5,7 @@ import datetime
 class Reservation(models.Model):
 	_name = 'booking.management.reservation'
 	_description = 'management of reservation'
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 
 	reference = fields.Char('Reference', readonly=True, required=True, default='/')
 	client_id = fields.Many2one('res.users', 'Client', required=True)
@@ -21,7 +22,7 @@ class Reservation(models.Model):
 					('canceled', 'Canceled')], default='new')
 	devis_id = fields.Many2one('sale.order', 'Quote')
 	partner_id = fields.Many2one('res.partner', related='devis_id.partner_id', string='Partner')
-	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=True, readonly=True)
+	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=1)
 
 	@api.model
 	def create(self, vals):

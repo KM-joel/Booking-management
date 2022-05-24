@@ -166,7 +166,7 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="booking_management.reservation_all_action_window'">
+    <record model="ir.actions.act_window" id="booking_management.reservation_all_action_window">
       <field name="name">Reservation all</field>
       <field name="res_model">booking.management.reservation</field>
       <field name="view_mode">tree,form,kanban,search</field>
@@ -250,7 +250,7 @@
 	    <menuitem name="All reservation"
 	              id="all_reservation"
 	              parent="booking_management.reservation"
-	              action="booking_management.reservation_all_action_window'"/>
+	              action="booking_management.reservation_all_action_window"/>
 
 	    <menuitem name="Analyse"
 	              id="reservation_analyse"
