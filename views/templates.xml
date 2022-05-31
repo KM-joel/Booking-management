@@ -95,7 +95,7 @@
 
         <template id="reservation_content" name="Reservation Portal Template">
             <div>
-                <form t-attf-action="/reservation/submit_request/" method="post" role="form" name="create_reservation"
+                <form t-attf-action="/reservation/create/" method="post" role="form" name="create_reservation"
                 enctype="multipart/form-data" class="o_wprofile_editor_form js_website_submit_form row">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <input type="hidden" name="url_param" t-att-value="request.params.get('url_param')"/>
@@ -156,7 +156,8 @@
                                 <li class="list-group-item flex-grow-1">
                                     <div class="btn-toolbar flex-sm-nowrap">
                                         <div class="btn-group flex-grow-1 mr-1 mb-1">
-                                            <a class="btn btn-secondary btn-block" t-attf-href="/reservation/edit/#{reservation.id}" title="Update">
+                                            <a class="btn btn-secondary btn-block" data-toggle="modal" data-target="#modal_reservation_update"
+                                               t-attf-href="/reservation/edit/#{reservation.id}" title="Update">
                                                 <i class="fa fa-edit mx-1"/>Update
                                             </a>
                                         </div>
@@ -188,6 +189,65 @@
                     </t>
                     <!-- Page content -->
                     <div id="reservation_content" class="col-12 col-lg justify-content-end">
+
+                        <!-- modal relative to the actions sign and pay -->
+                        <div role="dialog" class="modal fade" id="modal_reservation_update">
+                            <div class="modal-dialog">
+                                <form id="accept" method="POST" t-att-data-order-id="reservation.id" class="js_accept_json modal-content js_website_submit_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="id" t-att-value="reservation.id"/>
+                                    <input type="hidden" name="url_param" t-att-value="request.params.get('url_param')"/>
+                                    <header class="modal-header">
+                                        <h4 class="modal-title">Update :</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                                    </header>
+                                    <main class="modal-body" id="sign-dialog">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Client</label>
+                                            <select id="inputState" class="form-control col-sm-4" name="type_article">
+                                                <option value="Choise...">
+                                                    <t t-esc="reservation.article_id.name"></t>
+                                                </option>
+                                                <t t-foreach="articles or []" t-as="article">
+                                                    <option t-att-value="article.id" t-if="article.id != reservation.article_id.id">
+                                                        <t t-esc="article.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Start date</label>
+                                            <input type="date" name="reservation_date" class="form-control col-sm-6" t-attf-value="#{reservation.reservation_date}"
+                                               required="required"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">End date</label>
+                                            <input type="date" name="end_date_reservation" class="form-control col-sm-6" t-attf-value="#{reservation.end_date_reservation}"
+                                               required="required"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Hours</label>
+                                            <input type="number" name="reservation_duration_hours" class="form-control col-sm-6" t-attf-value="#{reservation.reservation_duration_hours}"
+                                               required="required"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Day</label>
+                                            <input type="number" name="reservation_duration_day" class="form-control col-sm-6" t-attf-value="#{reservation.reservation_duration_day}"
+                                               required="required"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Month</label>
+                                            <input type="number" name="reservation_duration_month" class="form-control col-sm-6" t-attf-value="#{reservation.reservation_duration_month}"
+                                               required="required"/>
+                                        </div>
+                                    </main>
+                                    <footer class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                        <button type="submit" t-att-id="reservation.id" class="btn btn-danger"><i class="fa fa-times"></i>Reject</button>
+                                    </footer>
+                                </form>
+                            </div>
+                        </div>
 
                         <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_reservation_content">
                             <div t-call="booking_management.reservation_details" t-attf-class="mx-2"/>
@@ -239,22 +299,29 @@
                             <span t-field="reservation.end_date_reservation" t-options="{'widget': 'date'}"/>
                         </div>
                     </div>
+
                 </div>
                 <section id="details" style="page-break-inside: auto;" class="mt32">
-                    <h3 id="details">Reservation</h3>
+                    <h5 id="details">Details duration</h5>
                     <t t-set="display_discount" t-value="True in [line.discount > 0 for line in reservation.devis_id.order_line]"></t>
-                    <table t-att-data-order-id="reservation.id"  class="table align-middle mb-0 bg-white" id="reservation_devis_table">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Client</th>
-                                <th>Reference</th>
-                                <th>Article</th>
-                                <th>Duration in hours</th>
-                                <th>Duration in month</th>
-                                <th>Duration in year</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <strong>Duration in hours:</strong>
+                            <span t-field="reservation.reservation_duration_hours"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <strong>Duration in day:</strong>
+                            <span t-field="reservation.reservation_duration_day"/>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-lg-6">
+                            <strong>Duration in year:</strong>
+                            <span t-field="reservation.reservation_duration_month"/>
+                        </div>
+                    </div>
                 </section>
             </div>
         </template>

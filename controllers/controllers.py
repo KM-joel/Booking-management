@@ -8,7 +8,7 @@ class PortalReservation(CustomerPortal):
 
     def _prepare_portal_layout_values(self):
         values = super(PortalReservation, self)._prepare_portal_layout_values()
-        client_id = r.env['res.users'].sudo().search([('id', '=', r.env.user.id)], limit=1)
+        client_id = r.env.user.id # r.env['res.users'].sudo().search([('id', '=', r.env.user.id)], limit=1)
         reservations_count = r.env['booking.management.reservation'].search_count([])
         values['reservations_count'] = reservations_count
         return values
@@ -18,7 +18,7 @@ class PortalReservation(CustomerPortal):
             'page_name': 'reservation',
             'reservation': reservation,
         }
-        return self._get_page_view_values(reservation, access_token, values, 'my_applications_history', False, **kwargs)
+        return self._get_page_view_values(reservation, access_token, values, 'my_reservations_history', False, **kwargs)
 
 
     @http.route(['/my/reservation', '/my/reservation/page/<int:page>'], type='http', auth='user', website=True)
@@ -38,7 +38,7 @@ class PortalReservation(CustomerPortal):
             sortby = 'date'
         order = searchbar_sortings[sortby]['order']
 
-        client_id = r.env['res.users'].sudo().search([('id', '=', r.env.user.id)], limit=1)
+        client_id = r.env.user.id# r.env['res.users'].sudo().search([('id', '=', r.env.user.id)], limit=1)
 
         domain += []
         reservations_count = reservations.search_count(domain)
@@ -52,7 +52,7 @@ class PortalReservation(CustomerPortal):
         )
 
         reservations = reservations.search(domain, order=order, limit=self._items_per_page, offset=pager['offset'])
-        r.session['my_applications_history'] = reservations.ids[:100]
+        r.session['my_reservations_history'] = reservations.ids[:100]
 
         values.update({
             'date': date_begin,
@@ -69,7 +69,7 @@ class PortalReservation(CustomerPortal):
     @http.route('/reservation/request/', type='http', auth='user', website=True)
     def view_reservation_form_create(self, error=None, **kwargs):
         articles = r.env['product.product'].search([])
-        clients = r.env['res.users'].search([('id', '=', r.env.uid)])
+        clients = r.env.uid # r.env['res.users'].search([('id', '=', r.env.uid)])
         reservations = r.env['booking.management.reservation'].search([])
 
         values = {
@@ -79,7 +79,7 @@ class PortalReservation(CustomerPortal):
         }
         return r.render('booking_management.reservation_submit', values)
 
-    @http.route('/reservation/submit_request', type='http', auth='user', website=True)
+    @http.route('/reservation/create', type='http', auth='user', website=True)
     def create_reservation_records(self, **post):
         try:
             values = {
@@ -106,12 +106,17 @@ class PortalReservation(CustomerPortal):
 
         values = self._application_get_page_view_values(reservation_sudo, access_token, **kw)
 
-        # reservations = r.env['booking.management.reservation'].search([])
+        products = r.env['product.product'].search([])
 
         values.update({
             'reservation': reservation_sudo,
+            'articles': products,
         })
         return r.render('booking_management.portal_reservation_page', values)
+
+    @http.route('/reservation/update', type='http', auth='user', website=True)
+    def update_reservation(self, **post):
+        pass
 
 
 
