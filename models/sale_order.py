@@ -17,8 +17,8 @@ class SaleOrder(models.Model):
 		if self.total_reservation > 1:
 			action['domain'] = [('id', 'in', self.reservation_ids.ids)]
 		elif self.reservation_ids:
-			tree_view = [(self.env.ref('booking_management.reservation_tree').id, 'tree')]
-			action['view_mode'] = tree_view
+			# tree_view = [(self.env.ref('booking_management.reservation_tree').id, 'tree')]
+			action['view_mode'] = 'tree,form'
 			action['res_id'] = self.reservation_ids.id
 		return action
 

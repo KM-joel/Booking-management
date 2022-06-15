@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import fields, models, api,_
 from odoo.exceptions import ValidationError
 import datetime
 
@@ -54,7 +54,35 @@ class Reservation(models.Model):
 		if self.state == 'new':
 			return self.write({'state': 'confirmed'})
 		elif self.state == 'confirmed':
-			return self.write({'state': 'validated'})
+			# return {
+			# 	'type': 'ir.actions.client',
+			# 	'tag': 'display_notification',
+			# 	'params': {
+			# 		'type': 'success',
+			# 		'message': _("Vous avez valide votre reservation avec success, Mr. : %s") % self.client_id.name,
+			# 		'sticky': False,
+			# 	}
+			# }
+			self.write({'state': 'validated'})
+			type_notif = 'success' if self.env['booking.management.reservation'].search_count([('client_id', '=', self.client_id.id)]) > 1 else 'warning'
+			if type_notif == 'success':
+				type_mess = _("Vous avez valide votre reservation avec success cher client %s")
+			else:
+				type_mess = _("Vous avez valide votre reservation avec success Mr. %s")
+			return {
+				'type': 'ir.actions.client',
+				'tag': 'display_notification',
+				'params': {
+					'type': type_notif,
+					'title': _("Confirmed"),
+					'message': type_mess % self.client_id.name,
+					'sticky': False,
+					'next': {
+						'type': 'ir.actions.act_window_close'
+					},
+				}
+			}
+
 		else:
 			raise ValidationError('You have already confirmed your reservation')
 
@@ -77,7 +105,7 @@ class Reservation(models.Model):
 			price = 150.00
 		else:
 			price = 140.00
-		sale_order_cost = self.devis_id.create({
+		sale_order_cost = order.create({
 			'date_order': datetime.datetime.now().strftime('%Y-%m-%d %H:%M'),
 			'name': self.reference,
 			'active_devis': True,
@@ -99,7 +127,7 @@ class Reservation(models.Model):
 				'active_devis': True,
 			})
 			for res in reserve:
-				if res.state == 'validated':
+				if self.state == 'validated':
 					duration =  res.reservation_duration_hours + \
 									   (res.reservation_duration_month*30 + res.reservation_duration_day)*24
 					if duration < 10:
@@ -116,7 +144,7 @@ class Reservation(models.Model):
 				else:
 					raise ValidationError('You cannot create a quote for an invalid reservation')
 
-
+	@api.depends('reservation_duration_hours', 'reservation_duration_month', 'reservation_duration_day')
 	def _compute_total_duration_hours(self):
 		for rec in self:
 			rec.total_duration_hours = rec.reservation_duration_hours + (rec.reservation_duration_month*30 + rec.reservation_duration_day)*24

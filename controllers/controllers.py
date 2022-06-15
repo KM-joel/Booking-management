@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from odoo import http, _
 from odoo.http import request as r
 
