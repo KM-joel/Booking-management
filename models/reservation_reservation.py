@@ -7,9 +7,9 @@ class Reservation(models.Model):
 	_description = 'management of reservation'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 
-	reference = fields.Char('Reference', readonly=True, required=True, default='/')
-	client_id = fields.Many2one('res.users', 'Client', required=True)
-	article_id = fields.Many2one('product.product', 'Article', required=True)
+	reference = fields.Char(string='Reference', readonly=True, required=True, default='/')
+	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=1)
+	article_id = fields.Many2one('product.product', 'Article', required=True, tracking=2)
 	reservation_date = fields.Date('Reservation date', required=True)
 	reservation_duration_hours = fields.Integer('Duration in hours')
 	reservation_duration_day = fields.Integer('Duration in day')
@@ -19,7 +19,7 @@ class Reservation(models.Model):
 					('new', 'New'),
 					('confirmed', 'Confirmed'),
 					('validated', 'Validated'),
-					('canceled', 'Canceled')], default='new')
+					('canceled', 'Canceled')], default='new', tracking=3)
 	devis_id = fields.Many2one('sale.order', 'Quote')
 	partner_id = fields.Many2one('res.partner', related='devis_id.partner_id', string='Partner')
 	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=1)
@@ -74,7 +74,7 @@ class Reservation(models.Model):
 				'tag': 'display_notification',
 				'params': {
 					'type': type_notif,
-					'title': _("Confirmed"),
+					'title': _("Reservation"),
 					'message': type_mess % self.client_id.name,
 					'sticky': False,
 					'next': {
@@ -95,7 +95,7 @@ class Reservation(models.Model):
 		else:
 			raise ValidationError('Please create your reservation again')
 
-	@api.constrains('reservation_duration_day', 'reservation_duration_hours')
+	# @api.depends('reservation_duration_day', 'reservation_duration_hours')
 	def create_quote(self):
 		self.ensure_one()
 		duration = (self.reservation_duration_month*30 + self.reservation_duration_day)*24 + self.reservation_duration_hours
@@ -127,9 +127,8 @@ class Reservation(models.Model):
 				'active_devis': True,
 			})
 			for res in reserve:
-				if self.state == 'validated':
-					duration =  res.reservation_duration_hours + \
-									   (res.reservation_duration_month*30 + res.reservation_duration_day)*24
+				if res.state == 'validated':
+					duration =  res.reservation_duration_hours + (res.reservation_duration_month*30 + res.reservation_duration_day)*24
 					if duration < 10:
 						price = 150.00
 					else:
@@ -148,6 +147,21 @@ class Reservation(models.Model):
 	def _compute_total_duration_hours(self):
 		for rec in self:
 			rec.total_duration_hours = rec.reservation_duration_hours + (rec.reservation_duration_month*30 + rec.reservation_duration_day)*24
+
+	def extern_link_whatsapp(self):
+		self.ensure_one()
+		msg = 'Hey %s, your reservation number is %s.' %(self.client_id.name, self.reference)
+		whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' %(self.client_id.phone, msg)
+		return {
+			'type': 'ir.actions.act_url',
+			'target': 'new',
+			'url': whatsapp_api_url,
+		}
+
+	def extern_link_youtube(self):
+		pass
+
+
 
 
 

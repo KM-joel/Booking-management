@@ -14,8 +14,8 @@
           <field name="state"
                  string="Status"
                  widget="badge"
-                 decoration-primary="state == 'new'"
-                 decoration-warning="state == 'confirmed'"
+                 decoration-muted="state == 'new'"
+                 decoration-primary="state == 'confirmed'"
                  decoration-success="state == 'validated'"
                  decoration-danger="state == 'canceled'"/>
           <field name="end_date_reservation"/>
@@ -51,11 +51,12 @@
                       name="create_quote"
                       class="oe_highlight"
                       states="validated"/>
+            <button string="Share" name="extern_link_whatsapp" type="object" class="oe_highlight" icon="fa-whatsapp"/>
             <field name="state" widget="statusbar"/>
           </header>
           <sheet>
             <div class="oe_title">
-              <label for="reference"/>
+<!--              <label for="reference"/>-->
                 <h1>
                   <field name="reference"/>
                 </h1>
@@ -74,11 +75,18 @@
               </group>
             </group>
             <notebook>
-              <page string="List of quotation">
-                <field name="article_id"/>
+              <page string="List of quote" attrs="{'invisible': [('devis_id', '=', False)]}">
+                <field name="devis_id" string="Devis" readonly="1"/>
               </page>
             </notebook>
           </sheet>
+          <div class="row">
+            <div class="oe_chatter">
+              <field name="message_follower_ids" widget="mail_followers"/>
+              <field name="activity_ids" widget="mail_activity"/>
+              <field name="message_ids" widget="mail_thread"/>
+            </div>
+          </div>
         </form>
       </field>
     </record>
@@ -180,19 +188,33 @@
       <field name="domain">[('client_id', '=', uid)]</field>
     </record>
 
+    <record id="client_view_tree" model="ir.ui.view">
+        <field name="name">client_view_tree</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <tree string="client_tree" create="false">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="phone"/>
+                <field name="reservation_ids" widget="many2many_tags" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="analyse_client_act_window">
       <field name="name">All client who have made at least one reservation</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">sale.order</field>
+      <field name="res_model">res.users</field>
+      <field name="view_id" ref="client_view_tree"/>
       <field name="view_mode">tree</field>
-      <field name="domain">[('reservation_ids.state', '=', ['new', 'confirmed', 'validated'])]</field>
+      <field name="domain">[('reservation_ids.state', 'in', ['new', 'confirmed', 'validated'])]</field>
     </record>
 
     <record model="ir.actions.act_window" id="analyse_sale_act_window">
       <field name="name">All the quote created since reservation</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">sale.order</field>
-      <field name="view_mode">tree</field>
+      <field name="view_mode">tree,form</field>
       <field name="domain">[('active_devis', '=', True)]</field>
     </record>
 
