@@ -33,7 +33,7 @@ class Reservation(models.Model):
 	def name_get(self):
 		result = []
 		for reserv in self:
-			name = '[' + reserv.reference + '] ' + reserv.client_id.display_name + ' / ' + reserv.article_id.name_article
+			name = '[%S]/%s/%s'  % (reserv.reference, reserv.client_id.display_name, reserv.article_id.name_article)
 			result.append((reserv.id, name))
 		return result
 
