@@ -2,35 +2,44 @@
 <odoo>
 	<data>
 		<!-- Top menu item -->
+<<<<<<< HEAD
 	    <menuitem name="Booking"
 	              web_icon="reservation,static/description/icon.png"
 	              id="reservation.gestion_des_reservations_menu_root"/>
+=======
+	    <menuitem name="Reservation" id="booking.management.gestion_des_reservations_menu_root"/>
+>>>>>>> 15_portal
 
 	    <!-- menu categories -->
 
 	    <menuitem name="Reservation"
-	              id="reservation.reservation_category"
-	              parent="reservation.gestion_des_reservations_menu_root"/>
+	              id="booking.management.reservation_category"
+	              parent="booking.management.gestion_des_reservations_menu_root"/>
 
 	    <!-- actions -->
 
 	    <menuitem name="Reservation"
-	              id="reservation.reservation"
-	              parent="reservation.reservation_category"/>
+	              id="booking.management.reservation"
+	              parent="booking.management.reservation_category"/>
 
 	    <menuitem name="My reservation"
-	              id="reservation.my_reservation"
-	              parent="reservation.reservation"
-	              action="reservation.reservations_user_action_window"/>
+	              id="booking.management.my_reservation"
+	              parent="booking.management.reservation"
+	              action="booking.management.reservations_user_action_window"/>
 	    <menuitem name="All reservation"
 	              id="all_reservation"
+<<<<<<< HEAD
 	              parent="reservation.reservation"
 	              action="reservation.reservation_all_action_window"/>
+=======
+	              parent="booking.management.reservation"
+	              action="booking.management.reservation_all_action_window'"/>
+>>>>>>> 15_portal
 
 	    <menuitem name="Analyse"
 	              id="reservation_analyse"
-	              groups="reservation.group_reservation_manager"
 	              parent="reservation_category"/>
+<!--	              groups="booking.management.group_reservation_manager"-->
 
 		<menuitem name="Client" id="analyse_client"
 		          parent="reservation_analyse" action="analyse_client_act_window"/>
@@ -39,8 +48,8 @@
 
 	    <menuitem name="Reporting"
 	              id="reservation_reporting"
-	              groups="reservation.group_reservation_manager"
 	              parent="reservation_category"/>
+<!--	              groups="booking.management.group_reservation_manager"-->
 
 		<menuitem name="My reservation by month" id="reservation_by_month"
 		          parent="reservation_reporting" action="reporting_month_act_window"/>

@@ -1,11 +1,13 @@
-from odoo import fields, models, api
+from odoo import fields, models, api,_
 from odoo.exceptions import ValidationError
 import datetime
 
 class Reservation(models.Model):
-	_name = 'reservation.reservation'
-	_inherit = ['mail.thread', 'mail.activity.mixin']
+
+	_name = 'booking.management.reservation'
 	_description = 'management of reservation'
+	_inherit = ['mail.thread', 'mail.activity.mixin']
+
 
 	reference = fields.Char('Reference', readonly=True, required=True, default='/', tracking=True)
 	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=True)
@@ -19,10 +21,10 @@ class Reservation(models.Model):
 					('new', 'New'),
 					('confirmed', 'Confirmed'),
 					('validated', 'Validated'),
-					('canceled', 'Canceled')], default='new', tracking=True)
-	devis_id = fields.Many2one('sale.order', 'Quote', tracking=True)
+					('canceled', 'Canceled')], default='new', tracking=3)
+	devis_id = fields.Many2one('sale.order', 'Quote')
 	partner_id = fields.Many2one('res.partner', related='devis_id.partner_id', string='Partner')
-	total_duration_hours = fields.Float('Total duration hours', readonly=True, store=True, compute='_compute_total_duration_hours')
+	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=1)
 
 	@api.model
 	def create(self, vals):
@@ -54,7 +56,35 @@ class Reservation(models.Model):
 		if self.state == 'new':
 			return self.write({'state': 'confirmed'})
 		elif self.state == 'confirmed':
-			return self.write({'state': 'validated'})
+			# return {
+			# 	'type': 'ir.actions.client',
+			# 	'tag': 'display_notification',
+			# 	'params': {
+			# 		'type': 'success',
+			# 		'message': _("Vous avez valide votre reservation avec success, Mr. : %s") % self.client_id.name,
+			# 		'sticky': False,
+			# 	}
+			# }
+			self.write({'state': 'validated'})
+			type_notif = 'success' if self.env['booking.management.reservation'].search_count([('client_id', '=', self.client_id.id)]) > 1 else 'warning'
+			if type_notif == 'success':
+				type_mess = _("Vous avez valide votre reservation avec success cher client %s")
+			else:
+				type_mess = _("Vous avez valide votre reservation avec success Mr. %s")
+			return {
+				'type': 'ir.actions.client',
+				'tag': 'display_notification',
+				'params': {
+					'type': type_notif,
+					'title': _("Reservation"),
+					'message': type_mess % self.client_id.name,
+					'sticky': False,
+					'next': {
+						'type': 'ir.actions.act_window_close'
+					},
+				}
+			}
+
 		else:
 			raise ValidationError('You have already confirmed your reservation')
 
@@ -67,30 +97,29 @@ class Reservation(models.Model):
 		else:
 			raise ValidationError('Please create your reservation again')
 
-	@api.constrains('reservation_duration_day', 'reservation_duration_hours', 'reservation_duration_month')
+	# @api.depends('reservation_duration_day', 'reservation_duration_hours')
 	def create_quote(self):
 		self.ensure_one()
-		if self.state == 'validated':
-			duration = (self.reservation_duration_month*30 + self.reservation_duration_day)*24 \
-					   + self.reservation_duration_hours
-			price = 0
-			order = self.env['sale.order'].search([], limit=1)
-			if duration < 10:
-				price = 150.00
-			else:
-				price = 140.00
-			sale_order_cost = self.devis_id.create({
-				'date_order': datetime.datetime.now().strftime('%Y-%m-%d %H:%M'),
-				'name': self.reference,
-				'active_devis': True,
-				'order_line': [
-					(0, 0, {'price_unit': price, 'product_uom_qty': duration, 'product_id': self.article_ids.id})
-				],
-				'partner_id': self.client_id.partner_id.id,
-				'pricelist_id': order.pricelist_id.id
-			})
-			self.devis_id = sale_order_cost
+		duration = (self.reservation_duration_month*30 + self.reservation_duration_day)*24 + self.reservation_duration_hours
+		price = 0
+		order = self.env['sale.order'].search([], limit=1)
+		if duration < 10:
+			price = 150.00
+		else:
+			price = 140.00
+		sale_order_cost = order.create({
+			'date_order': datetime.datetime.now().strftime('%Y-%m-%d %H:%M'),
+			'name': self.reference,
+			'active_devis': True,
+			'order_line': [
+				(0, 0, {'price_unit': price, 'product_uom_qty': duration, 'product_id': self.article_id.id})
+			],
+			'partner_id': self.client_id.partner_id.id,
+			'pricelist_id': order.pricelist_id.id
+		})
+		self.devis_id = sale_order_cost
 
+	@api.depends('reservation_duration_hours', 'reservation_duration_month', 'reservation_duration_day')
 	def create_many_quotation(self):
 		users = set(self.client_id)
 		price = 0
@@ -102,8 +131,7 @@ class Reservation(models.Model):
 			})
 			for res in reserve:
 				if res.state == 'validated':
-					duration =  res.reservation_duration_hours + \
-									   (res.reservation_duration_month*30 + res.reservation_duration_day)*24
+					duration =  res.reservation_duration_hours + (res.reservation_duration_month*30 + res.reservation_duration_day)*24
 					if duration < 10:
 						price = 150.00
 					else:
@@ -118,11 +146,25 @@ class Reservation(models.Model):
 				else:
 					raise ValidationError('You cannot create a quote for an invalid reservation')
 
-	@api.depends('reservation_duration_hours', 'reservation_duration_day', 'reservation_duration_month')
 	def _compute_total_duration_hours(self):
 		for rec_total in self:
 			rec_total.total_duration_hours = ((rec_total.reservation_duration_month*30 + rec_total.reservation_duration_day)*24
 											  + rec_total.reservation_duration_hours)
+
+	def extern_link_whatsapp(self):
+		self.ensure_one()
+		msg = 'Hey %s, your reservation number is %s.' %(self.client_id.name, self.reference)
+		whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' %(self.client_id.phone, msg)
+		return {
+			'type': 'ir.actions.act_url',
+			'target': 'new',
+			'url': whatsapp_api_url,
+		}
+
+	def extern_link_youtube(self):
+		pass
+
+
 
 
 

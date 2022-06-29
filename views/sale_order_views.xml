@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-		<record id="reservation_sale_order_tree" model="ir.ui.view">
-			<field name="name">reservation_sale_order_tree</field>
-			<field name="model">sale.order</field>
-			<field name="inherit_id" ref="sale.view_order_tree"/>
-			<field name="arch" type="xml">
-				<xpath expr="//field[@name='name']" position="after">
-					<field name="reservation_ids"/>
-				</xpath>
-			</field>
-		</record>
+<!--		<record id="reservation_sale_order_tree" model="ir.ui.view">-->
+<!--			<field name="name">reservation_sale_order_tree</field>-->
+<!--			<field name="model">sale.order</field>-->
+<!--			<field name="inherit_id" ref="sale.view_order_tree"/>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<xpath expr="//field[@name='name']" position="after">-->
+<!--					<field name="reservation_ids"/>-->
+<!--				</xpath>-->
+<!--			</field>-->
+<!--		</record>-->
 
 		<record id="reservation_sale_order_form" model="ir.ui.view">
 			<field name="name">reservation_sale_order_form</field>
@@ -29,10 +29,21 @@
 				<xpath expr="//form//sheet//notebook//page[@name='order_lines']" position="before" >
 					<page string="List of reservations">
 						<field name="reservation_ids">
-								<!-- <tree>
-									<field name="reference" />
-									<field name="client_id"/>
-								</tree>-->
+							<tree editable="bottom">
+								<field name="client_id"/>
+								<field name="article_id"/>
+								<field name="reservation_date"/>
+								<field name="end_date_reservation"/>
+								<field name="reservation_duration_hours"/>
+								<field name="reservation_duration_day"/>
+								<field name="reservation_duration_month"/>
+								<field name="state" string="Status" widget="badge" decoration-muted="state == 'new'"
+									   decoration-primary="state == 'confirmed'"
+									   decoration-success="state == 'validated'"
+									   decoration-danger="state == 'canceled'"/>
+								<button type="object" name="next_step" class="oe_highlight fa fa-fast-forward"
+										attrs="{'invisible': [('state', 'in', ['validated', 'canceled'])]}"/>
+							</tree>
 						</field>
 					</page>
 				</xpath>
@@ -47,5 +58,16 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
+		<!-- menu categories -->
+	    <menuitem name="Quote"
+		          id="quote_category"
+		          parent="booking_management.gestion_des_reservations_menu_root"/>
+<!--	              groups="booking.management.group_reservation_manager"-->
+
+		<!-- actions -->
+		<menuitem name="List of quote"
+		          id="reservation_devis_tree"
+		          parent="quote_category"
+		          action="reservation_sale_order_act_window"/>
 	</data>
 </odoo>

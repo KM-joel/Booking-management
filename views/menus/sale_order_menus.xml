@@ -4,8 +4,8 @@
 		<!-- menu categories -->
 	    <menuitem name="Quote"
 		          id="quote_category"
-	              groups="reservation.group_reservation_manager"
-		          parent="reservation.gestion_des_reservations_menu_root"/>
+		          parent="booking.management.gestion_des_reservations_menu_root"/>
+<!--	              groups="booking.management.group_reservation_manager"-->
 
 		<!-- actions -->
 		<menuitem name="List of quote"

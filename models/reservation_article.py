@@ -2,6 +2,7 @@ from odoo import models, fields, api
 
 
 class ReservationArticle(models.Model):
+
     _inherit = 'product.product'
 
     reservation_id = fields.Many2one('reservation.reservation', 'Resevation')

@@ -2,7 +2,38 @@
 <odoo>
 	<data>
 
+		<record id="gestion_des_reservations_article_form" model="ir.ui.view">
+			<field name="name">gestion des reservations article form</field>
+			<field name="model">booking.management.article</field>
+			<field name="arch" type="xml">
+				<form string="Article">
+					<sheet>
+						<div class="oe_title">
+							<label for="name_article"/>
+							<h1>
+								<field name="name_article" placeholder="Nom de l'article"/>
+							</h1>
+						</div>
+						<group>
+							<field name="description_article"/>
+							<field name="create_date" attrs="{'readonly': False}" string="Date de creation"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
 
+		<record id="gestion_des_reservations_article_list" model="ir.ui.view">
+			<field name="name">gestion des reservations list</field>
+			<field name="model">booking.management.article</field>
+			<field name="arch" type="xml">
+				<tree string="Article">
+					<field name="name_article"/>
+					<field name="description_article"/>
+					<field name="create_date" string="Date de creation"/>
+				</tree>
+			</field>
+		</record>
 
 <!--		<record id="gestion_des_reservations_search_view" model="ir.ui.view">-->
 <!--			<field name="name">ProjectName.gestion_des_reservations.search</field>-->
@@ -20,7 +51,19 @@
 		<record id="reservation_article_act_window" model="ir.actions.act_window">
 			<field name="name">gestion des reservations article</field>
 			<field name="res_model">product.product</field>
+
 			<field name="view_mode">tree,form</field>
 		</record>
+
+		 <!-- menu categories -->
+		<menuitem name="Article"
+		          id="article_category"
+		          parent="booking_management.gestion_des_reservations_menu_root"/>
+
+		<!-- actions -->
+		<menuitem name="List of article"
+		          id="article_list"
+		          parent="article_category"
+		          action="reservation_article_act_window"/>
 	</data>
 </odoo>
