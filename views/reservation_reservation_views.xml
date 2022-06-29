@@ -62,9 +62,10 @@
             </div>
             <group>
               <group>
-                <field name="client_id"/>
-                <field name="reservation_date"/>
-                <field name="end_date_reservation"/>
+                  <field name="client_id"/>
+                  <field name="article_id"/>
+                  <field name="reservation_date"/>
+                  <field name="end_date_reservation"/>
               </group>
               <group>
                 <field name="reservation_duration_hours"/>
@@ -182,20 +183,33 @@
 <!--    </record>-->
 
     <!-- actions opening views on models -->
+      <record id="booking_management_action" model="ir.actions.act_window">
+          <field name="name">Reservation all for connected user</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">booking.management.reservation</field>
+          <field name="view_mode">tree,form,kanban,search</field>
+      </record>
 
-    <record model="ir.actions.act_window" id="booking_management.reservation_all_action_window">
-      <field name="name">Reservation all</field>
-      <field name="res_model">booking.management.reservation</field>
-      <field name="view_mode">tree,form,kanban,search</field>
-    </record>
+<!--     <record model="ir.actions.act_window" id="Booking_management.reservation_all_action_window">-->
+<!--          <field name="name">Reservation all</field>-->
+<!--          <field name="res_model">booking.management.reservation</field>-->
+<!--          <field name="view_mode">tree,form,kanban,search</field>-->
+<!--     </record>-->
 
-    <record model="ir.actions.act_window" id="booking_management.reservations_user_action_window">
-      <field name="name">Reservation all for connected user</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">booking.management.reservation</field>
-      <field name="view_mode">tree,form</field>
-      <field name="domain">[('client_id', '=', uid)]</field>
-    </record>
+<!--    <record model="ir.actions.act_window" id="Booking_management.reservations_user_action_window">-->
+<!--      <field name="name">Reservation all for connected user</field>-->
+<!--      <field name="type">ir.actions.act_window</field>-->
+<!--      <field name="res_model">booking.management.reservation</field>-->
+<!--      <field name="view_mode">tree,form</field>-->
+<!--      <field name="domain">[('client_id', '=', uid)]</field>-->
+<!--    </record>-->
+      <record id="reservation_user_action" model="ir.actions.act_window">
+          <field name="name">Reservation all for connected user</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">booking.management.reservation</field>
+          <field name="view_mode">tree,form</field>
+          <field name="domain">[('client_id', '=', uid)]</field>
+      </record>
 
     <record id="client_view_tree" model="ir.ui.view">
         <field name="name">client_view_tree</field>
@@ -263,28 +277,28 @@
     </record>
 
     <!-- Top menu item -->
-	    <menuitem name="Reservation" id="booking_management.gestion_des_reservations_menu_root"/>
+	    <menuitem name="Reservation" id="Booking-management.gestion_des_reservations_menu_root"/>
 
 	    <!-- menu categories -->
 
 	    <menuitem name="Reservation"
-	              id="booking_management.reservation_category"
-	              parent="booking_management.gestion_des_reservations_menu_root"/>
+	              id="Booking-management.reservation_category"
+	              parent="Booking-management.gestion_des_reservations_menu_root"/>
 
 	    <!-- actions -->
 
 	    <menuitem name="Reservation"
-	              id="booking_management.reservation"
-	              parent="booking_management.reservation_category"/>
+	              id="Booking-management.reservation"
+	              parent="Booking-management.reservation_category"/>
 
 	    <menuitem name="My reservation"
-	              id="booking_management.my_reservation"
-	              parent="booking_management.reservation"
-	              action="booking_management.reservations_user_action_window"/>
+	              id="Booking-management.my_reservation"
+	              parent="Booking-management.reservation"
+	              action="Booking-management.reservation_user_action"/>
 	    <menuitem name="All reservation"
 	              id="all_reservation"
-	              parent="booking_management.reservation"
-	              action="booking_management.reservation_all_action_window"/>
+	              parent="Booking-management.reservation"
+	              action="Booking-management.booking_management_action"/>
 
 	    <menuitem name="Analyse"
 	              id="reservation_analyse"

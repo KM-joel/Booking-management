@@ -12,6 +12,7 @@ class Reservation(models.Model):
 	reference = fields.Char('Reference', readonly=True, required=True, default='/', tracking=True)
 	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=True)
 	article_ids = fields.One2many('product.product', 'reservation_id',required=True, tracking=True)
+	article_id = fields.Many2one('product.product', 'Article', required=True, tracking=2)
 	reservation_date = fields.Date('Reservation date', required=True, tracking=True)
 	reservation_duration_hours = fields.Integer('Duration in hours')
 	reservation_duration_day = fields.Integer('Duration in day')
@@ -36,7 +37,7 @@ class Reservation(models.Model):
 	def name_get(self):
 		result = []
 		for reserv in self:
-			name = '[%S]/%s/%s'  % (reserv.reference, reserv.client_id.display_name, reserv.article_id.name_article)
+			name = '[%s]/%s/%s'  % (reserv.reference, reserv.client_id.name, reserv.article_id.name)
 			result.append((reserv.id, name))
 		return result
 
@@ -66,7 +67,7 @@ class Reservation(models.Model):
 			# 	}
 			# }
 			self.write({'state': 'validated'})
-			type_notif = 'success' if self.env['booking.management.reservation'].search_count([('client_id', '=', self.client_id.id)]) > 1 else 'warning'
+			type_notif = 'success' if self.env['booking.management.reservation'].search_count([('client_id', '=', self.client_id.id), ('state', '=', 'validated')]) > 1 else 'warning'
 			if type_notif == 'success':
 				type_mess = _("Vous avez valide votre reservation avec success cher client %s")
 			else:
@@ -146,10 +147,10 @@ class Reservation(models.Model):
 				else:
 					raise ValidationError('You cannot create a quote for an invalid reservation')
 
+	@api.depends('reservation_duration_month', 'reservation_duration_day', 'reservation_duration_hours')
 	def _compute_total_duration_hours(self):
-		for rec_total in self:
-			rec_total.total_duration_hours = ((rec_total.reservation_duration_month*30 + rec_total.reservation_duration_day)*24
-											  + rec_total.reservation_duration_hours)
+		for rec in self:
+			rec.total_duration_hours = rec.reservation_duration_hours + (rec.reservation_duration_month*30 + rec.reservation_duration_day)*24
 
 	def extern_link_whatsapp(self):
 		self.ensure_one()

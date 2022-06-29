@@ -1,8 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-<<<<<<< HEAD
-access_reservation_article,reservation_article,model_reservation_article,reservation.group_reservation_manager,1,1,1,0
-access_reservation_reservation,reservation_reservation,model_reservation_reservation,reservation.group_reservation_manager,1,1,1,0
-=======
-access_booking_management_article,booking_management_article,model_booking_management_article,,1,1,1,1
 access_booking_management_reservation,booking_management_reservation,model_booking_management_reservation,,1,1,1,1
->>>>>>> 15_portal
+

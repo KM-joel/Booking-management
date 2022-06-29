@@ -66,7 +66,7 @@ class PortalReservation(CustomerPortal):
             'sortby': sortby,
         })
 
-        return r.render('booking_management.portal_my_reservations', values)
+        return r.render('Booking-management.portal_my_reservations', values)
 
     @http.route('/reservation/request/', type='http', auth='user', website=True)
     def view_reservation_form_create(self, error=None, **kwargs):
@@ -79,7 +79,7 @@ class PortalReservation(CustomerPortal):
             'reservations': reservations,
             'error': error,
         }
-        return r.render('booking_management.reservation_submit', values)
+        return r.render('Booking-management.reservation_submit', values)
 
     @http.route('/reservation/create', type='http', auth='user', website=True)
     def create_reservation_records(self, **post):
@@ -114,7 +114,7 @@ class PortalReservation(CustomerPortal):
             'reservation': reservation_sudo,
             'articles': products,
         })
-        return r.render('booking_management.portal_reservation_page', values)
+        return r.render('Booking-management.portal_reservation_page', values)
 
     @http.route('/reservation/update', type='http', auth='user', website=True)
     def update_reservation(self, **post):
