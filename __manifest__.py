@@ -37,7 +37,9 @@
         'views/sale_order_views.xml',
         'data/reservation_reference_sequence.xml',
         'data/reservation_many_quotation.xml',
+        'views/account_move_views.xml',
         'views/templates.xml',
+        'views/res_config_settings.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

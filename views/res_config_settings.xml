@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_booking_management" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.booking_management</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Booking-management" string="Booking"
+                         data-key="Booking-management" groups="base.group_erp_manager">
+                        <h2>Product Control Panel Configurations</h2>
+                        <div class="row mt16 o_settings_container" name="Booking-management_setting_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div>
+                                    <label for="product_id"/>
+                                    <div>
+                                        <field name="product_id" force_save="1"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        This is product in configuration society
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_booking_management_configuration" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module': 'Booking-management'}</field>
+        </record>
+
+        <menuitem id="booking_management_settings" name="Settings" parent="Booking-management.gestion_des_reservations_menu_root"
+                  action="action_booking_management_configuration" groups="base.group_system" sequence="50"/>
+
+    </data>
+</odoo>

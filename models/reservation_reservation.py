@@ -2,18 +2,19 @@ from odoo import fields, models, api,_
 from odoo.exceptions import ValidationError
 import datetime
 
+
 class Reservation(models.Model):
 
 	_name = 'booking.management.reservation'
 	_description = 'management of reservation'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
+	_order = 'reference desc'
 
-
-	reference = fields.Char('Reference', readonly=True, required=True, default='/', tracking=True)
-	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=True)
+	reference = fields.Char('Reference', readonly=True, required=True, default='/')
+	client_id = fields.Many2one('res.users', 'Client', required=True, tracking=1)
 	article_ids = fields.One2many('product.product', 'reservation_id',required=True, tracking=True)
 	article_id = fields.Many2one('product.product', 'Article', required=True, tracking=2)
-	reservation_date = fields.Date('Reservation date', required=True, tracking=True)
+	reservation_date = fields.Date('Reservation date', required=True, tracking=3)
 	reservation_duration_hours = fields.Integer('Duration in hours')
 	reservation_duration_day = fields.Integer('Duration in day')
 	reservation_duration_month = fields.Integer('Durartion in month')
@@ -27,6 +28,9 @@ class Reservation(models.Model):
 	partner_id = fields.Many2one('res.partner', related='devis_id.partner_id', string='Partner')
 	total_duration_hours = fields.Float(string='Total duration hours', compute='_compute_total_duration_hours', store=1)
 
+	progress = fields.Integer(string='Progress', compute='_compute_progress')
+	reference_record = fields.Reference(selection=[('sale.order', 'Sales'), ('account.move', 'Invoices')], string='Records')
+
 	@api.model
 	def create(self, vals):
 		if vals.get('reference', '/') == '/':
@@ -35,11 +39,12 @@ class Reservation(models.Model):
 		return result
 
 	def name_get(self):
-		result = []
-		for reserv in self:
-			name = '[%s]/%s/%s'  % (reserv.reference, reserv.client_id.name, reserv.article_id.name)
-			result.append((reserv.id, name))
-		return result
+		return [(record.id, '[%s]/%s/%s' % (record.reference, record.client_id.name, record.article_id.name)) for record in self]
+		# result = []
+		# for reserv in self:
+		# 	name = '[%s]/%s/%s'  % (reserv.reference, reserv.client_id.name, reserv.article_id.name)
+		# 	result.append((reserv.id, name))
+		# return result
 
 	@api.depends('reservation_date', 'reservation_duration_hours', 'reservation_duration_day','reservation_duration_month')
 	def _compute_end_date_reservation(self):
@@ -141,7 +146,7 @@ class Reservation(models.Model):
 						'name': res.reference,
 						'price_unit': price,
 						'product_uom_qty': duration,
-						'product_id': res.article_ids.id
+						'product_id': res.article_id.id,
 					})]
 					res.devis_id = sale_order_cost
 				else:
@@ -158,12 +163,32 @@ class Reservation(models.Model):
 		whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' %(self.client_id.phone, msg)
 		return {
 			'type': 'ir.actions.act_url',
-			'target': 'new',
+			'target': 'new', # or 'self'
 			'url': whatsapp_api_url,
 		}
 
 	def extern_link_youtube(self):
 		pass
+
+	@api.depends('state')
+	def _compute_progress(self):
+		for rec in self:
+			if rec.state == 'new':
+				progress = 25
+			elif rec.state == 'confirmed':
+				progress = 75
+			elif rec.state == 'validated':
+				progress = 100
+			else:
+				 progress = 0
+			rec.progress = progress
+
+	# client_id = fields.Many2one('res.users', 'Client', required=True, tracking=1, search='_search_client_id')
+	# def _search_client_id(self, operator, value):
+	# 	return [('reservation_date', '=', fields.Date.today())]
+
+
+
 
 
 
@@ -178,6 +203,8 @@ class Reservation(models.Model):
 	# 		raise ValidationError(f'Vous avez saisi une valeur superieure a 32 jours #{self.reservation_duration_day}')
 		# elif self.reservation_duration_hours <= 24:
 		# 	raise ValidationError(f'Vous avez saisi une valeur superieure a 24 Heure #{self.reservation_duration_hours}')
+	# self.env['ir.config_parameter'].get_param('booking_management.field_parameter')
+	# self.env.context.get('active_id')
 
 
 
