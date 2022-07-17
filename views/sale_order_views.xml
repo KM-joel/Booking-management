@@ -26,14 +26,17 @@
 						<field name="total_reservation" widget="statinfo" string="Reservations"/>
 					</button>
 				</xpath>
+				<xpath expr="//field[@name='partner_id']" position="after">
+					<field name="count_client_group"/>
+				</xpath>
 				<xpath expr="//form//sheet//notebook//page[@name='order_lines']" position="before" >
 					<page string="List of reservations">
 						<field name="reservation_ids">
 							<tree editable="bottom">
-								<field name="client_id"/>
+								<field name="client_id" decoration-it="1"/>
 								<field name="article_id"/>
-								<field name="reservation_date"/>
-								<field name="end_date_reservation"/>
+								<field name="reservation_date" decoration-bf="1"/>
+								<field name="end_date_reservation" decoration-bf="1"/>
 								<field name="reservation_duration_hours"/>
 								<field name="reservation_duration_day"/>
 								<field name="reservation_duration_month"/>
