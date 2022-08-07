@@ -62,7 +62,7 @@
 		</record>
 
 		<!-- menu categories -->
-	    <menuitem name="Quote"
+	    <menuitem name="Quote" groups="group_reservation_manager"
 		          id="quote_category"
 		          parent="Booking-management.gestion_des_reservations_menu_root"/>
 <!--	              groups="booking.management.group_reservation_manager"-->

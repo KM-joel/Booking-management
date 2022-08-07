@@ -26,9 +26,8 @@
 
     # always loaded
     'data': [
-        # 'security/reservation_groups.xml',
-        # 'security/reservation_security.xml',
-        # 'views/menus/reservation_menus.xml',
+        'security/reservation_groups.xml',
+        'security/reservation_security.xml',
         # 'views/menus/sale_order_menus.xml',
         # 'views/menus/article_menus.xml',
         'views/reservation_reservation_views.xml',
@@ -39,7 +38,7 @@
         'data/reservation_many_quotation.xml',
         'views/account_move_views.xml',
         'views/templates.xml',
-        'views/res_config_settings.xml',
+        # 'views/res_config_settings.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -16,7 +16,7 @@
                                 <div>
                                     <label for="product_id"/>
                                     <div>
-                                        <field name="product_id" force_save="1"/>
+                                        <field name="booking_product_id"/>
                                     </div>
                                     <div class="text-muted">
                                         This is product in configuration society

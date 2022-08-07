@@ -168,7 +168,8 @@ class Reservation(models.Model):
 		}
 
 	def extern_link_youtube(self):
-		pass
+		for rec in self:
+			pass
 
 	@api.depends('state')
 	def _compute_progress(self):
@@ -196,10 +197,11 @@ class Reservation(models.Model):
 
 
 
+
 	# Verifier le total et tester
 	# @api.constrains('reservation_duration_hours','reservation_duration_day')
 	# def _check_date(self):
-	# 	if self.reservation_duration_day < 30 and self.reservation_duration_day <= 24:
+	# 	if self.reservation_duration_day <= 30 and self.reservation_duration_day <= 24:
 	# 		raise ValidationError(f'Vous avez saisi une valeur superieure a 32 jours #{self.reservation_duration_day}')
 		# elif self.reservation_duration_hours <= 24:
 		# 	raise ValidationError(f'Vous avez saisi une valeur superieure a 24 Heure #{self.reservation_duration_hours}')

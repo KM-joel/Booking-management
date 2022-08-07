@@ -194,7 +194,7 @@
 
     <!-- actions opening views on models -->
       <record id="booking_management_action" model="ir.actions.act_window">
-          <field name="name">Reservation all for connected user</field>
+          <field name="name">Reservation all</field>
           <field name="type">ir.actions.act_window</field>
           <field name="res_model">booking.management.reservation</field>
           <field name="view_mode">tree,form,kanban,search</field>
@@ -287,7 +287,7 @@
     </record>
 
     <!-- Top menu item -->
-	    <menuitem name="Reservation" id="Booking-management.gestion_des_reservations_menu_root"/>
+	    <menuitem name="Reservation" web_icon="Booking-management,static/img/odoo_icon.png" id="Booking-management.gestion_des_reservations_menu_root"/>
 
 	    <!-- menu categories -->
 
@@ -305,12 +305,12 @@
 	              id="Booking-management.my_reservation"
 	              parent="Booking-management.reservation"
 	              action="Booking-management.reservation_user_action"/>
-	    <menuitem name="All reservation"
+	    <menuitem name="All reservation" groups="group_reservation_manager"
 	              id="all_reservation"
 	              parent="Booking-management.reservation"
 	              action="Booking-management.booking_management_action"/>
 
-	    <menuitem name="Analyse"
+	    <menuitem name="Analyse" groups="group_reservation_manager"
 	              id="reservation_analyse"
 	              parent="reservation_category"/>
 <!--	              groups="booking.management.group_reservation_manager"-->
@@ -320,7 +320,7 @@
 	    <menuitem name="Sale" id="analyse_sale"
 	              parent="reservation_analyse" action="analyse_sale_act_window"/>
 
-	    <menuitem name="Reporting"
+	    <menuitem name="Reporting" groups="group_reservation_manager"
 	              id="reservation_reporting"
 	              parent="reservation_category"/>
 <!--	              groups="booking.management.group_reservation_manager"-->
