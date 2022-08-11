@@ -3,14 +3,13 @@
     'name': "BOOKING",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        management of reservation""",
 
     'description': """
-        Long description of module's purpose
+        management of reservation
     """,
 
-    'author': "My Company",
+    'author': "@k.joel",
     'website': "https://karizma-conseil.com/",
     'license': 'AGPL-3',
 
