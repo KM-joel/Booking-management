@@ -193,11 +193,6 @@ class Reservation(models.Model):
 
 
 
-
-
-
-
-
 	# Verifier le total et tester
 	# @api.constrains('reservation_duration_hours','reservation_duration_day')
 	# def _check_date(self):
