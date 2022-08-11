@@ -41,7 +41,7 @@
         'wizard/whatsapp_send_message_views.xml',
         'views/res_partner_views.xml',
         'views/res_config_settings.xml',
-        # 'views/assets/assets.xml',
+        'views/assets.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
