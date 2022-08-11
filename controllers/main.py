@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+
+import werkzeug
 from odoo import http, _
 from odoo.http import request as r
-
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
-import werkzeug
+
 
 class PortalReservation(CustomerPortal):
 

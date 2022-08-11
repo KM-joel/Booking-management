@@ -1,21 +1,19 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<odoo>-->
-<!--	<data>-->
-<!--		<record model="ir.module.category" id="reservation_access">-->
-<!--			<field name="name">Reservation</field>-->
-<!--		</record>-->
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.module.category" id="reservation_access">
+			<field name="name">Reservation</field>
+		</record>
 
-<!--		<record id="group_reservation_users" model="res.groups">-->
-<!--			<field name="name">User</field>-->
-<!--			<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
-<!--			<field name="category_id" ref="booking.management.reservation_access"/>-->
-<!--		</record>-->
+		<record id="group_reservation_users" model="res.groups">
+			<field name="name">User</field>
+			<field name="category_id" ref="Booking-management.reservation_access"/>
+		</record>
 
-<!--		<record id="group_reservation_manager" model="res.groups">-->
-<!--			<field name="name">Manager</field>-->
-<!--			<field name="category_id" ref="booking.management.reservation_access"/>-->
-<!--			<field name="implied_ids" eval="[(4, ref('booking.management.group_reservation_users'))]"/>-->
-<!--			<field name="users" eval="[(4, ref('base.user_root'))]"/>-->
-<!--		</record>-->
-<!--	</data>-->
-<!--</odoo>-->
+		<record id="group_reservation_manager" model="res.groups">
+			<field name="name">Manager</field>
+			<field name="implied_ids" eval="[(4, ref('group_reservation_users'))]"/>
+			<field name="category_id" ref="Booking-management.reservation_access"/>
+		</record>
+	</data>
+</odoo>
