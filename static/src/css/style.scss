@@ -1,0 +1,25 @@
+.navbar {
+  background-color: #9aadff;
+}
+
+.o_portal_wrap {
+  .o_portal_navbar {
+    //@extend %o-portal-breadcrumbs;
+    //background-color: #6d2c70;
+    .breadcrumb {
+      display: none !important;
+    }
+
+  }
+
+  .o_portal_my_doc_table {
+    th {
+      background-color: thistle;
+    }
+  }
+}
+
+footer {
+  border-top: 2px solid theme-color('primary');
+}
+

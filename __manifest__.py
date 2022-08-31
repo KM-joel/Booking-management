@@ -21,7 +21,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['base','sale', 'website', 'hr', 'hr_recruitment', 'web', 'contacts'],
+    'depends': ['base', 'sale', 'hr', 'hr_recruitment', 'web', 'contacts'],
     'application': True,
 
     # always loaded
@@ -40,11 +40,19 @@
         'wizard/whatsapp_send_message_views.xml',
         'views/res_partner_views.xml',
         'views/res_config_settings.xml',
-        'views/assets.xml',
+        #'views/assets.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
 
         # 'demo/demo.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            '/Booking-management/static/src/css/style.scss',
+        ],
+        'web.assets_backend': [
+            '/Booking-management/static/src/js/popup_form.js',
+        ]
+    },
 }

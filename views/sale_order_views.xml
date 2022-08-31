@@ -19,9 +19,9 @@
 			<field name="arch" type="xml">
 				<xpath expr="//div[@name='button_box']">
 					<button type="object" name="open_view_reservations"
-					        class="oe_stat_button"
-					        position="inside"
-					        icon="fa-shopping-cart"
+							class="oe_stat_button"
+							position="inside"
+							icon="fa-shopping-cart"
 							attrs="{'invisible': [('total_reservation', '=', 0)]}">
 						<field name="total_reservation" widget="statinfo" string="Reservations"/>
 					</button>
