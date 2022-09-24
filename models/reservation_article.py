@@ -1,12 +1,11 @@
-from odoo import models, fields, api
+from odoo import fields, models
 
 
 class ReservationArticle(models.Model):
 
-    _inherit = 'product.product'
+    _inherit = "product.product"
 
-    reservation_id = fields.Many2one('reservation.reservation', 'Resevation')
-
+    reservation_id = fields.Many2one("reservation.reservation", "Resevation")
 
     # @api.depends('value')
     # def _value_pc(self):

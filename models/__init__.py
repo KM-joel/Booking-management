@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-
-from . import reservation_reservation
-from . import reservation_article
-from . import sale_order
-from . import res_users
-from . import account_move
-from . import res_company
-from . import res_partner
-from . import res_config_settings
+from . import (
+    account_move,
+    res_company,
+    res_config_settings,
+    res_partner,
+    res_users,
+    reservation_article,
+    reservation_reservation,
+    sale_order,
+)

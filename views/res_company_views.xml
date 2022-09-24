@@ -10,7 +10,8 @@
 
                 <xpath expr="//field[@name='phone']" position="after">
                     <!-- Add your fields or attributes here -->
-                    <field name="token_whatsapp" string="Token whatsapp" placeholder="https://eu102.chat-api.com/instance99645/sendMessage?token=iwu09tzu212lk"/>
+                    <field name="token_whatsapp" string="Token whatsapp"
+                           placeholder="https://eu102.chat-api.com/instance99645/sendMessage?token=iwu09tzu212lk"/>
                 </xpath>
 
             </field>

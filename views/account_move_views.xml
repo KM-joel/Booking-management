@@ -10,9 +10,9 @@
                 <xpath expr="//field[@name='invoice_date']" position="after">
                     <field name="so_confirmed_user_id"/>
                 </xpath>
-<!--                <xpath expr="//field[@name='example_field']" position="attributes">-->
-<!--                    <attribute name="invisible">True</attribute>-->
-<!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='example_field']" position="attributes">-->
+                <!--                    <attribute name="invisible">True</attribute>-->
+                <!--                </xpath>-->
             </field>
         </record>
     </data>

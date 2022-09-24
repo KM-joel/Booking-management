@@ -9,7 +9,8 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//div[@name='button_box']" position="inside">
-                     <button name="open_view_send_message" string="Whatsapp Message" type="object" class="oe_stat_button" icon="fa-whatsapp"/>
+                    <button name="open_view_send_message" string="Whatsapp Message" type="object" class="oe_stat_button"
+                            icon="fa-whatsapp"/>
                 </xpath>
 
             </field>

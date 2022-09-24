@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+      - id: black
+        exclude: '^.csv'
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+
+  - repo: https://github.com/OCA/pylint-odoo
+    rev: 7.0.1
+    hooks:
+      - id: pylint_odoo

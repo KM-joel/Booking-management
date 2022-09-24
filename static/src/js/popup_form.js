@@ -1,4 +1,4 @@
-odoo.define("Booking-management.booking_management_reservation", function (require){
+odoo.define("booking_management.booking_management_reservation", function (require){
     "use strict";
 
     const core = require('web.core');
