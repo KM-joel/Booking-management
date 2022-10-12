@@ -1,8 +1,8 @@
 from odoo import _, http
-from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.addons.portal.controllers.portal import pager as portal_pager
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request as r
+
+from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 
 
 class PortalReservation(CustomerPortal):

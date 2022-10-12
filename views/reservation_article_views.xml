@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
 
@@ -56,14 +56,18 @@
         </record>
 
         <!-- menu categories -->
-        <menuitem name="Article"
-                  id="article_category"
-                  parent="booking_management.gestion_des_reservations_menu_root"/>
+        <menuitem
+      name="Article"
+      id="article_category"
+      parent="booking_management.gestion_des_reservations_menu_root"
+    />
 
         <!-- actions -->
-        <menuitem name="List of article"
-                  id="article_list"
-                  parent="article_category"
-                  action="reservation_article_act_window"/>
+        <menuitem
+      name="List of article"
+      id="article_list"
+      parent="article_category"
+      action="reservation_article_act_window"
+    />
     </data>
 </odoo>

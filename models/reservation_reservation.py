@@ -10,7 +10,7 @@ class Reservation(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "reference desc"
 
-    reference = fields.Char("Reference", readonly=True, required=True, default="/")
+    reference = fields.Char("Ref", readonly=True, required=True, default="/")
     client_id = fields.Many2one("res.users", "Client", required=True, tracking=1)
     article_ids = fields.One2many(
         "product.product", "reservation_id", required=True, tracking=True
@@ -18,7 +18,7 @@ class Reservation(models.Model):
     article_id = fields.Many2one(
         "product.product", "Article", required=True, tracking=2
     )
-    reservation_date = fields.Date("Reservation date", required=True, tracking=3)
+    reservation_date = fields.Date("Date reserved", required=True, tracking=3)
     reservation_duration_hours = fields.Integer("Duration in hours")
     reservation_duration_day = fields.Integer("Duration in day")
     reservation_duration_month = fields.Integer("Durartion in month")
@@ -43,10 +43,10 @@ class Reservation(models.Model):
         "res.partner", related="devis_id.partner_id", string="Partner"
     )
     total_duration_hours = fields.Float(
-        string="Total duration hours", compute="_compute_total_duration_hours", store=1
+        string="Sum duration hours", compute="_compute_total_duration_hours", store=1
     )
 
-    progress = fields.Integer(string="Progress", compute="_compute_progress")
+    progress = fields.Integer(string="Step progress", compute="_compute_progress")
     reference_record = fields.Reference(
         selection=[("sale.order", "Sales"), ("account.move", "Invoices")],
         string="Records",
@@ -264,14 +264,16 @@ class Reservation(models.Model):
     #        res = super(SaleOrder, self)._message_post_after_hook(message, msg_vals)
     #        for rec in self:
     #            for follower in rec.message_follower_ids:
-    #                follows = self.env['mail.compose.message'].search([('subscribe_recepients', '=', False)])
+    #                follows = self.env['mail.compose.message']
+    #                .search([('subscribe_recepients', '=', False)])
     #                if follows:
     #                    follower.unlink()
     #                else:
     #                    logger.info('----------------------', follows)
     #        return res
 
-    # client_id = fields.Many2one('res.users', 'Client', required=True, tracking=1, search='_search_client_id')
+    # client_id = fields.Many2one('res.users', 'Client', required=True, tracking=1,
+    # search='_search_client_id')
     # def _search_client_id(self, operator, value):
     # 	return [('reservation_date', '=', fields.Date.today())]
 
@@ -279,8 +281,11 @@ class Reservation(models.Model):
     # @api.constrains('reservation_duration_hours','reservation_duration_day')
     # def _check_date(self):
     # 	if self.reservation_duration_day <= 30 and self.reservation_duration_day <= 24:
-    # 		raise ValidationError(f'Vous avez saisi une valeur superieure a 32 jours #{self.reservation_duration_day}')
+    # 		raise ValidationError(f'Vous avez saisi une valeur superieure a 32 jours
+    # 		#{self.reservation_duration_day}')
     # elif self.reservation_duration_hours <= 24:
-    # 	raise ValidationError(f'Vous avez saisi une valeur superieure a 24 Heure #{self.reservation_duration_hours}')
+    # 	raise ValidationError(f'Vous avez saisi une valeur superieure a 24 Heure
+    # 	#{self.reservation_duration_hours}')
     # self.env['ir.config_parameter'].get_param('booking_management.field_parameter')
     # self.env.context.get('active_id')
+    # next((s.period_id.id for s in r.subject_activity_ids), {})

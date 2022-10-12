@@ -1,4 +1,3 @@
-import logging as logger
 from odoo import api, fields, models
 
 
@@ -9,7 +8,7 @@ class SaleOrder(models.Model):
         "booking.management.reservation", "devis_id", string="Reservation"
     )
     total_reservation = fields.Integer(
-        "Total reservation", compute="_compute_total_reservation"
+        "Reservation sum", compute="_compute_total_reservation"
     )
     active_devis = fields.Boolean(default=False)
 
@@ -41,9 +40,8 @@ class SaleOrder(models.Model):
     )
 
     def action_confirm(self):
-        super(SaleOrder, self).action_confirm()
-        logger.info("+++++++++++++++++++++++++++++++")
         self.user_id = self.confirmed_user_id
+        return super(SaleOrder, self).action_confirm()
 
     def _prepare_invoice(self):
         invoices_vals = super(SaleOrder, self)._prepare_invoice()
@@ -67,7 +65,8 @@ class SaleOrder(models.Model):
         self.count_client_group = 0
 
     # def open_expenses_action(self):
-    # 	action = self.env['ir.actions.act_window']._for_xml_id('hr_expense.action_hr_expense_sheet_all_all')
+    # 	action = self.env['ir.actions.act_window']
+    # 	._for_xml_id('hr_expense.action_hr_expense_sheet_all_all')
     # 	action['context'] = {
     # 		'search_default_approved': 1,
     # 		'search_default_to_post': 1,
@@ -89,7 +88,8 @@ class SaleOrder(models.Model):
     # account = self.env['account.move'].browse([51, 72]).mapped('name')
     # for ac in account:
     # 	logger.info('------->', ac)
-    # self.env['account.move'].browse(3).write({'name': 'update_name', 'email': 'joel@gmail.com'})
+    # self.env['account.move'].browse(3)
+    # .write({'name': 'update_name', 'email': 'joel@gmail.com'})
     # 	self.env['account.move'].browse(99).get_metadata()
     # 	self.env['account.move'].browse(99).get_metadata()[0].get('xmlid')
     # 	self.env['account.move'].fields_get(['name', 'field_label'], ['type', 'string'])

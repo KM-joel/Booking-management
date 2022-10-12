@@ -2,16 +2,13 @@
     "name": "BOOKING",
     "summary": """
         management of reservation""",
-    "description": """
-        management of reservation""",
     "author": "k.joel, Odoo Community Association (OCA)",
     "website": "https://karizma-conseil.com/",
     "license": "AGPL-3",
     # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     "category": "Uncategorized",
-    # "version": "1.0",
+    "version": "15.0.1.0.0",
     # any module necessary for this one to work correctly
     "depends": ["base", "sale", "hr", "hr_recruitment", "web", "contacts"],
     "application": True,
