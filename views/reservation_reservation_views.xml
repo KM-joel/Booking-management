@@ -1,335 +1,459 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
+    <data>
+        <!-- explicit list view definition -->
 
-    <record model="ir.ui.view" id="reservation_tree">
-      <field name="name">reservation_tree</field>
-      <field name="model">booking.management.reservation</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="reference"/>
-          <field name="client_id" decoration-it="1"/>
-          <field name="reservation_date" decoration-bf="1"/>
-          <field name="end_date_reservation" decoration-bf="1"/>
-          <field name="state" string="Status"  widget="badge"
-                 decoration-muted="state == 'new'"
-                 decoration-warning="state == 'confirmed'"
-                 decoration-success="state == 'validated'"
-                 decoration-danger="state == 'canceled'"/>
-         <field name="progress" widget="progressbar"/>
-        </tree>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="reservation_tree">
+            <field name="name">reservation_tree</field>
+            <field name="model">booking.management.reservation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="reference" />
+                    <field name="client_id" decoration-it="1" />
+                    <field name="reservation_date" decoration-bf="1" />
+                    <field name="end_date_reservation" decoration-bf="1" />
+                    <field
+            name="state"
+            string="Status"
+            widget="badge"
+            decoration-muted="state == 'new'"
+            decoration-warning="state == 'confirmed'"
+            decoration-success="state == 'validated'"
+            decoration-danger="state == 'canceled'"
+          />
+                    <field name="progress" widget="progressbar" />
+                </tree>
+            </field>
+        </record>
 
-    <!-- explicit form view definition -->
+        <!-- explicit form view definition -->
 
-    <record model="ir.ui.view" id="reservation_form">
-      <field name="name">reservation_form</field>
-      <field name="model">booking.management.reservation</field>
-      <field name="arch" type="xml">
-        <form>
-          <header>
-            <button string="Next step"
-                    type="object"
-                    name="next_step"
-                    class="oe_highlight mx-2 my-2"
-                    attrs="{'invisible': [('state', '=', 'canceled')]}"/>
-            <button string="New"
-                    type="object"
-                    name="canceled_reservation"
-                    class="oe_highlight mx-2 my-2"
-                    states="canceled"/>
-            <button string="Cancel the reservation"
-                    type="object"
-                    confirm = 'Are you sure you need to cancel reservation ?'
-                    name="canceled_reservation"
-                    class="oe_highlight mx-2 my-2"
-                    states="validated"/>
-            <button string="Create a quote"
-                      type="object"
-                      name="create_quote"
-                      class="oe_highlight mx-2 my-2"
-                      states="validated"/>
-            <button string="Share" name="extern_link_whatsapp" type="object" class="oe_highlight" icon="fa-whatsapp"/>
-            <field name="state" widget="statusbar"/>
-          </header>
-          <sheet>
-            <div class="oe_title">
-<!--              <label for="reference"/>-->
-                <h1>
-                  <field name="reference"/>
-                </h1>
-            </div>
-            <group>
-              <group>
-                  <field name="client_id"/>
-                  <field name="article_id"/>
-                  <field name="reservation_date"/>
-                  <field name="end_date_reservation"/>
-              </group>
-              <group>
-                <field name="reservation_duration_hours"/>
-                <field name="reservation_duration_day"/>
-                <field name="reservation_duration_month"/>
-              </group>
-            </group>
-            <notebook>
-                <page string="Progress" name="progress">
-                    <field name="progress" widget="progressbar"/>
-                </page>
-                <page string="List of quote" attrs="{'invisible': [('devis_id', '=', False)]}">
-                    <field name="devis_id" string="Devis" readonly="1" force_save="1"/>
-                </page>
-                <page string="Record sales invoices" name="reference_record">
-                    <group>
+        <record model="ir.ui.view" id="reservation_form">
+            <field name="name">reservation_form</field>
+            <field name="model">booking.management.reservation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button
+              string="Next step"
+              type="object"
+              name="next_step"
+              class="oe_highlight mx-2 my-2"
+              attrs="{'invisible': [('state', '=', 'canceled')]}"
+            />
+                        <button
+              string="New"
+              type="object"
+              name="canceled_reservation"
+              class="oe_highlight mx-2 my-2"
+              states="canceled"
+            />
+                        <button
+              string="Cancel the reservation"
+              type="object"
+              confirm='Are you sure you need to cancel reservation ?'
+              name="canceled_reservation"
+              class="oe_highlight mx-2 my-2"
+              states="validated"
+            />
+                        <button
+              string="Create a quote"
+              type="object"
+              name="create_quote"
+              class="oe_highlight mx-2 my-2"
+              states="validated"
+            />
+                        <button
+              string="Share"
+              name="extern_link_whatsapp"
+              type="object"
+              class="oe_highlight"
+              icon="fa-whatsapp"
+            />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <!--              <label for="reference"/>-->
+                            <h1>
+                                <field name="reference" />
+                            </h1>
+                        </div>
                         <group>
-                            <field name="reference_record" widget="reference"/>
+                            <group>
+                                <field name="client_id" />
+                                <field name="article_id" />
+                                <field name="reservation_date" />
+                                <field name="end_date_reservation" />
+                            </group>
+                            <group>
+                                <field name="reservation_duration_hours" />
+                                <field name="reservation_duration_day" />
+                                <field name="reservation_duration_month" />
+                            </group>
                         </group>
+                        <notebook>
+                            <page string="Progress" name="progress">
+                                <field name="progress" widget="progressbar" />
+                            </page>
+                            <page
+                string="List of quote"
+                attrs="{'invisible': [('devis_id', '=', False)]}"
+              >
+                                <field
+                  name="devis_id"
+                  string="Devis"
+                  readonly="1"
+                  force_save="1"
+                />
+                            </page>
+                            <page
+                string="Record sales invoices"
+                name="reference_record"
+              >
+                                <group>
+                                    <group>
+                                        <field
+                      name="reference_record"
+                      widget="reference"
+                    />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="row">
+                        <div class="oe_chatter">
+                            <field
+                name="message_follower_ids"
+                widget="mail_followers"
+              />
+                            <field name="activity_ids" widget="mail_activity" />
+                            <field name="message_ids" widget="mail_thread" />
+                        </div>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- explicit kanban view definition -->
+
+        <record id="reservation_kanban" model="ir.ui.view">
+            <field name="name">gestion des reservations kanban</field>
+            <field name="model">booking.management.reservation</field>
+            <field name="arch" type="xml">
+                <kanban
+          class="o_res_partner_kanban"
+          default_group_by="state"
+          default_order="state"
+        >
+                    <progressbar
+            field="state"
+            colors='{"validated": "success", "canceled": "danger", "new": "muted", "confirmed": "warning"}'
+          />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <span><field name="client_id" /></span>
+                                    </strong>
+                                    <div>
+                                        <strong>
+                                            <field
+                        name="reservation_duration_hours"
+                      /> Heure
+                                            <field
+                        name="reservation_duration_day"
+                      /> Jour
+                                            <field
+                        name="reservation_duration_month"
+                      /> Mois
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <field name="reference" />
+                                        </span>
+                                        <div>
+                                            <field name="reservation_date" />
+                                            <field
+                        name="state"
+                        widget="badge"
+                        decoration-muted="state == 'new'"
+                        decoration-warning="state == 'confirmed'"
+                        decoration-success="state == 'validated'"
+                        decoration-danger="state == 'canceled'"
+                      />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- explicit search view definition -->
+
+        <record model="ir.ui.view" id="reservation_search">
+            <field name="name">reservation_search</field>
+            <field name="model">booking.management.reservation</field>
+            <field name="arch" type="xml">
+                <search string="Search par reservation">
+                    <field name="reference" />
+                    <field name="client_id" />
+                    <field name="article_ids" />
+                    <field name="reservation_date" />
+                    <field name="end_date_reservation" />
+                    <separator />
+                    <filter
+            string="Nouvelle"
+            name="filter_by_new"
+            domain="[('state', '=', 'new')]"
+          />
+                    <filter
+            string="Confirmee"
+            name="filter_by_confirmed"
+            domain="[('state', '=', 'confirmed')]"
+          />
+                    <filter
+            string="Validee"
+            name="filter_by_validated"
+            domain="[('state', '=', 'validated')]"
+          />
+                    <filter
+            string="Annulee"
+            name="filter_by_canceled"
+            domain="[('state', '=', 'canceled')]"
+          />
+                    <group string="Group by">
+                        <filter
+              name="by_client"
+              string="Client"
+              context="{'group_by': 'client_id'}"
+            />
+                        <filter
+              name="by_reservation"
+              string="Date de reservation"
+              context="{'group_by': 'reservation_date:month'}"
+            />
+                        <filter
+              name="by_article"
+              string="Article"
+              context="{'group_by': 'article_ids'}"
+            />
                     </group>
-                </page>
-            </notebook>
-          </sheet>
-          <div class="row">
-            <div class="oe_chatter">
-              <field name="message_follower_ids" widget="mail_followers"/>
-              <field name="activity_ids" widget="mail_activity"/>
-              <field name="message_ids" widget="mail_thread"/>
-            </div>
-          </div>
-        </form>
-      </field>
-    </record>
+                </search>
+            </field>
+        </record>
 
-     <!-- explicit kanban view definition -->
+        <!-- explicit graph view definition -->
 
-    <record id="reservation_kanban" model="ir.ui.view">
-      <field name="name">gestion des reservations kanban</field>
-      <field name="model">booking.management.reservation</field>
-      <field name="arch" type="xml">
-          <kanban class="o_res_partner_kanban" default_group_by="state" default_order="state">
-            <progressbar field="state" colors='{"validated": "success", "canceled": "danger", "new": "muted", "confirmed": "warning"}'/>
-            <templates>
-              <t t-name="kanban-box">
-                <div t-attf-class="oe_kanban_global_click">
-                  <div class="oe_kanban_details">
-                    <strong class="o_kanban_record_title">
-                      <span><field name="client_id"/></span>
-                    </strong>
-                    <div>
-                      <strong>
-                        <field name="reservation_duration_hours"/> Heure
-                        <field name="reservation_duration_day"/> Jour
-                        <field name="reservation_duration_month"/> Mois
-                      </strong>
-                    </div>
-                    <div>
-                      <span>
-                        <field name="reference"/>
-                      </span>
-                      <div>
-                        <field name="reservation_date"/>
-                        <field name="state"
-                               widget="badge"
-                               decoration-muted="state == 'new'"
-                               decoration-warning="state == 'confirmed'"
-                               decoration-success="state == 'validated'"
-                               decoration-danger="state == 'canceled'"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </t>
-            </templates>
-          </kanban>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="reservation_graph">
+            <field name="name">reservation_graph</field>
+            <field name="model">booking.management.reservation</field>
+            <field name="arch" type="xml">
+                <graph type="pie">
+                    <field name="reservation_date" interval="month" />
+                </graph>
+            </field>
+        </record>
 
-    <!-- explicit search view definition -->
+        <!--    <record model="ir.ui.view" id="reservation_pivot">-->
+        <!--      <field name="name">reservation_pivot</field>-->
+        <!--      <field name="model">reservation.reservation</field>-->
+        <!--      <field name="arch" type="xml">-->
+        <!--        <pivot>-->
+        <!--          <field name="total_duration_hours" type="measure"/>-->
+        <!--        </pivot>-->
+        <!--      </field>-->
+        <!--    </record>-->
 
-    <record model="ir.ui.view" id="reservation_search">
-      <field name="name">reservation_search</field>
-      <field name="model">booking.management.reservation</field>
-      <field name="arch" type="xml">
-        <search string="Search par reservation">
-          <field name="reference"/>
-          <field name="client_id"/>
-          <field name="article_ids"/>
-          <field name="reservation_date"/>
-          <field name="end_date_reservation"/>
-          <separator/>
-          <filter string="Nouvelle" name="filter_by_new" domain="[('state', '=', 'new')]"/>
-          <filter string="Confirmee" name="filter_by_confirmed" domain="[('state', '=', 'confirmed')]"/>
-          <filter string="Validee" name="filter_by_validated" domain="[('state', '=', 'validated')]"/>
-          <filter string="Annulee" name="filter_by_canceled" domain="[('state', '=', 'canceled')]"/>
-          <group string="Group by">
-            <filter name="by_client" string="Client" context="{'group_by': 'client_id'}"/>
-            <filter name="by_reservation" string="Date de reservation" context="{'group_by': 'reservation_date:month'}"/>
-            <filter name="by_article" string="Article" context="{'group_by': 'article_ids'}"/>
-          </group>
-        </search>
-      </field>
-    </record>
+        <!-- actions opening views on models -->
+        <record id="booking_management_action" model="ir.actions.act_window">
+            <field name="name">Reservation all</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.management.reservation</field>
+            <field name="view_mode">tree,form,kanban,search</field>
+        </record>
 
-    <!-- explicit graph view definition -->
+        <!--     <record model="ir.actions.act_window" id="Booking_management.reservation_all_action_window">-->
+        <!--          <field name="name">Reservation all</field>-->
+        <!--          <field name="res_model">booking.management.reservation</field>-->
+        <!--          <field name="view_mode">tree,form,kanban,search</field>-->
+        <!--     </record>-->
 
-    <record model="ir.ui.view" id="reservation_graph">
-      <field name="name">reservation_graph</field>
-      <field name="model">booking.management.reservation</field>
-      <field name="arch" type="xml">
-        <graph type="pie">
-          <field name="reservation_date" interval="month"/>
-        </graph>
-      </field>
-    </record>
+        <!--    <record model="ir.actions.act_window" id="Booking_management.reservations_user_action_window">-->
+        <!--      <field name="name">Reservation all for connected user</field>-->
+        <!--      <field name="type">ir.actions.act_window</field>-->
+        <!--      <field name="res_model">booking.management.reservation</field>-->
+        <!--      <field name="view_mode">tree,form</field>-->
+        <!--      <field name="domain">[('client_id', '=', uid)]</field>-->
+        <!--    </record>-->
+        <record id="reservation_user_action" model="ir.actions.act_window">
+            <field name="name">Reservation all for connected user</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.management.reservation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('client_id', '=', uid)]</field>
+        </record>
 
-<!--    <record model="ir.ui.view" id="reservation_pivot">-->
-<!--      <field name="name">reservation_pivot</field>-->
-<!--      <field name="model">reservation.reservation</field>-->
-<!--      <field name="arch" type="xml">-->
-<!--        <pivot>-->
-<!--          <field name="total_duration_hours" type="measure"/>-->
-<!--        </pivot>-->
-<!--      </field>-->
-<!--    </record>-->
+        <record id="client_view_tree" model="ir.ui.view">
+            <field name="name">client_view_tree</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <tree string="client_tree" create="false">
+                    <field name="name" />
+                    <field name="company_id" />
+                    <field name="phone" />
+                    <field
+            name="reservation_ids"
+            widget="many2many_tags"
+            optional="show"
+          />
+                </tree>
+            </field>
+        </record>
 
-    <!-- actions opening views on models -->
-      <record id="booking_management_action" model="ir.actions.act_window">
-          <field name="name">Reservation all</field>
-          <field name="type">ir.actions.act_window</field>
-          <field name="res_model">booking.management.reservation</field>
-          <field name="view_mode">tree,form,kanban,search</field>
-      </record>
+        <record model="ir.actions.act_window" id="analyse_client_act_window">
+            <field name="name">All client who have made at least one reservation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.users</field>
+            <field name="view_id" ref="client_view_tree" />
+            <field name="view_mode">tree</field>
+            <field
+        name="domain"
+      >[('reservation_ids.state', 'in', ['new', 'confirmed', 'validated'])]</field>
+        </record>
 
-<!--     <record model="ir.actions.act_window" id="Booking_management.reservation_all_action_window">-->
-<!--          <field name="name">Reservation all</field>-->
-<!--          <field name="res_model">booking.management.reservation</field>-->
-<!--          <field name="view_mode">tree,form,kanban,search</field>-->
-<!--     </record>-->
+        <record model="ir.actions.act_window" id="analyse_sale_act_window">
+            <field name="name">All the quote created since reservation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('active_devis', '=', True)]</field>
+        </record>
 
-<!--    <record model="ir.actions.act_window" id="Booking_management.reservations_user_action_window">-->
-<!--      <field name="name">Reservation all for connected user</field>-->
-<!--      <field name="type">ir.actions.act_window</field>-->
-<!--      <field name="res_model">booking.management.reservation</field>-->
-<!--      <field name="view_mode">tree,form</field>-->
-<!--      <field name="domain">[('client_id', '=', uid)]</field>-->
-<!--    </record>-->
-      <record id="reservation_user_action" model="ir.actions.act_window">
-          <field name="name">Reservation all for connected user</field>
-          <field name="type">ir.actions.act_window</field>
-          <field name="res_model">booking.management.reservation</field>
-          <field name="view_mode">tree,form</field>
-          <field name="domain">[('client_id', '=', uid)]</field>
-      </record>
+        <record model="ir.actions.act_window" id="reporting_month_act_window">
+            <field name="name">My reservation by month</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.management.reservation</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="context">{'group_by': 'reservation_date:month'}</field>
+            <field name="domain">[('state', '!=', 'canceled')]</field>
+            <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
+        </record>
 
-    <record id="client_view_tree" model="ir.ui.view">
-        <field name="name">client_view_tree</field>
-        <field name="model">res.users</field>
-        <field name="arch" type="xml">
-            <tree string="client_tree" create="false">
-                <field name="name"/>
-                <field name="company_id"/>
-                <field name="phone"/>
-                <field name="reservation_ids" widget="many2many_tags" optional="show"/>
-            </tree>
-        </field>
-    </record>
+        <record model="ir.actions.act_window" id="reporting_canceled_month_act_window">
+            <field name="name">My reservation canceled by month</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.management.reservation</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="domain">[('state', '=', 'canceled')]</field>
+            <field name="context">{'group_by': 'reservation_date:month'}</field>
+            <!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
+            <!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
+            <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
+        </record>
 
-    <record model="ir.actions.act_window" id="analyse_client_act_window">
-      <field name="name">All client who have made at least one reservation</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">res.users</field>
-      <field name="view_id" ref="client_view_tree"/>
-      <field name="view_mode">tree</field>
-      <field name="domain">[('reservation_ids.state', 'in', ['new', 'confirmed', 'validated'])]</field>
-    </record>
+        <record model="ir.actions.act_window" id="reporting_hours_month_act_window">
+            <field name="name">Total reservation hours by month</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.management.reservation</field>
+            <field name="view_mode">pivot</field>
+            <field name="domain">[('state', 'not in', ['new', 'canceled'])]</field>
+            <field name="context">{'search_default_group_by_reservation_date': 1,
+                                   'pivot_measures': ['total_duration_hours']}</field>
+            <!--      <field name="view_id" ref="reservation.reservation_pivot"/>-->
+            <!--      <field name="context">{'group_by': 'reservation_date:month'}</field>'search_default_group_by_reservation_date': 1,, 'pivot_measures': ['total_duration_hours']-->
+            <!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
+            <!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
+        </record>
 
-    <record model="ir.actions.act_window" id="analyse_sale_act_window">
-      <field name="name">All the quote created since reservation</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">sale.order</field>
-      <field name="view_mode">tree,form</field>
-      <field name="domain">[('active_devis', '=', True)]</field>
-    </record>
+        <!-- Top menu item -->
+        <menuitem
+      name="Reservation"
+      web_icon="booking_management,static/img/icon.png"
+      id="booking_management.gestion_des_reservations_menu_root"
+    />
 
-    <record model="ir.actions.act_window" id="reporting_month_act_window">
-      <field name="name">My reservation by month</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">booking.management.reservation</field>
-      <field name="view_mode">pivot,graph</field>
-      <field name="context">{'group_by': 'reservation_date:month'}</field>
-      <field name="domain">[('state', '!=', 'canceled')]</field>
-<!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
-    </record>
+        <!-- menu categories -->
 
-    <record model="ir.actions.act_window" id="reporting_canceled_month_act_window">
-      <field name="name">My reservation canceled by month</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">booking.management.reservation</field>
-      <field name="view_mode">pivot,graph</field>
-      <field name="domain">[('state', '=', 'canceled')]</field>
-      <field name="context">{'group_by': 'reservation_date:month'}</field>
-<!--      <field name="context">{'group_by': 'reservation_date:month'}</field>-->
-<!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
-<!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
-    </record>
+        <menuitem
+      name="Reservation"
+      id="booking_management.reservation_category"
+      parent="booking_management.gestion_des_reservations_menu_root"
+    />
 
-    <record model="ir.actions.act_window" id="reporting_hours_month_act_window">
-      <field name="name">Total reservation hours by month</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">booking.management.reservation</field>
-      <field name="view_mode">pivot</field>
-      <field name="domain">[('state', 'not in', ['new', 'canceled'])]</field>
-      <field name="context">{'search_default_group_by_reservation_date': 1, 'pivot_measures': ['total_duration_hours']}</field>
-<!--      <field name="view_id" ref="reservation.reservation_pivot"/>-->
-<!--      <field name="context">{'group_by': 'reservation_date:month'}</field>'search_default_group_by_reservation_date': 1,, 'pivot_measures': ['total_duration_hours']-->
-<!--      <field name="domain">[('devis.name', 'like', 'reference')]</field>-->
-<!--      <filter name="groupby_create_date" string="Creation Date" context="{'group_by': 'reservation_date:month'}"/>-->
-    </record>
+        <!-- actions -->
 
-    <!-- Top menu item -->
-	    <menuitem name="Reservation" web_icon="Booking-management,static/img/icon.png" id="Booking-management.gestion_des_reservations_menu_root"/>
+        <menuitem
+      name="Reservation"
+      id="booking_management.reservation"
+      parent="booking_management.reservation_category"
+    />
 
-	    <!-- menu categories -->
+        <menuitem
+      name="My reservation"
+      id="booking_management.my_reservation"
+      parent="booking_management.reservation"
+      action="booking_management.reservation_user_action"
+    />
+        <menuitem
+      name="All reservation"
+      groups="group_reservation_manager"
+      id="all_reservation"
+      parent="booking_management.reservation"
+      action="booking_management.booking_management_action"
+    />
 
-	    <menuitem name="Reservation"
-	              id="Booking-management.reservation_category"
-	              parent="Booking-management.gestion_des_reservations_menu_root"/>
+        <menuitem
+      name="Analyse"
+      groups="group_reservation_manager"
+      id="reservation_analyse"
+      parent="reservation_category"
+    />
+        <!--	              groups="booking.management.group_reservation_manager"-->
 
-	    <!-- actions -->
+        <menuitem
+      name="Client"
+      id="analyse_client"
+      parent="reservation_analyse"
+      action="analyse_client_act_window"
+    />
+        <menuitem
+      name="Sale"
+      id="analyse_sale"
+      parent="reservation_analyse"
+      action="analyse_sale_act_window"
+    />
 
-	    <menuitem name="Reservation"
-	              id="Booking-management.reservation"
-	              parent="Booking-management.reservation_category"/>
+        <menuitem
+      name="Reporting"
+      groups="group_reservation_manager"
+      id="reservation_reporting"
+      parent="reservation_category"
+    />
+        <!--	              groups="booking.management.group_reservation_manager"-->
 
-	    <menuitem name="My reservation"
-	              id="Booking-management.my_reservation"
-	              parent="Booking-management.reservation"
-	              action="Booking-management.reservation_user_action"/>
-	    <menuitem name="All reservation" groups="group_reservation_manager"
-	              id="all_reservation"
-	              parent="Booking-management.reservation"
-	              action="Booking-management.booking_management_action"/>
-
-	    <menuitem name="Analyse" groups="group_reservation_manager"
-	              id="reservation_analyse"
-	              parent="reservation_category"/>
-<!--	              groups="booking.management.group_reservation_manager"-->
-
-		<menuitem name="Client" id="analyse_client"
-		          parent="reservation_analyse" action="analyse_client_act_window"/>
-	    <menuitem name="Sale" id="analyse_sale"
-	              parent="reservation_analyse" action="analyse_sale_act_window"/>
-
-	    <menuitem name="Reporting" groups="group_reservation_manager"
-	              id="reservation_reporting"
-	              parent="reservation_category"/>
-<!--	              groups="booking.management.group_reservation_manager"-->
-
-		<menuitem name="My reservation by month" id="reservation_by_month"
-		          parent="reservation_reporting" action="reporting_month_act_window"/>
-	    <menuitem name="My reservation canceled by month" id="reservation_canceled_month"
-	              parent="reservation_reporting" action="reporting_canceled_month_act_window"/>
-	    <menuitem name="Total hours reserved by month" id="total_hours_month"
-	              parent="reservation_reporting" action="reporting_hours_month_act_window"/>
-  </data>
+        <menuitem
+      name="My reservation by month"
+      id="reservation_by_month"
+      parent="reservation_reporting"
+      action="reporting_month_act_window"
+    />
+        <menuitem
+      name="My reservation canceled by month"
+      id="reservation_canceled_month"
+      parent="reservation_reporting"
+      action="reporting_canceled_month_act_window"
+    />
+        <menuitem
+      name="Total hours reserved by month"
+      id="total_hours_month"
+      parent="reservation_reporting"
+      action="reporting_hours_month_act_window"
+    />
+    </data>
 </odoo>
