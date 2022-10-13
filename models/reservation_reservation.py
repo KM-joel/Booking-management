@@ -289,3 +289,18 @@ class Reservation(models.Model):
     # self.env['ir.config_parameter'].get_param('booking_management.field_parameter')
     # self.env.context.get('active_id')
     # next((s.period_id.id for s in r.subject_activity_ids), {})
+
+    # state_performance_period = fields.Selection(related='period_id.state', store=True)
+    # @api.depends('myr_date_from', 'submit_date_from')
+    # def show_message_alert(self):
+    #     for rec in self:
+    #         cycles = self.env['hr.cycle'].search(
+    #             [('user_id', '=', rec.env.uid),
+    #             ('state_performance_period', '=', 'confirmed')])
+    #         for cycle in cycles:
+    #             if cycle and cycle.period_id.myr_date_from
+    #             and cycle.period_id.submit_date_from:
+    #                 if fields.Date.today() >= cycle.period_id.submit_date_from:
+    #                     print('------- to and myr')
+    #                 if fields.Date.today() >= cycle.period_id.myr_date_from:
+    #                     print('-------- EYR')

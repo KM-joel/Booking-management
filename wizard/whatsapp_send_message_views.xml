@@ -14,7 +14,7 @@
                         <field name="mobile" />
                     </group>
                     <group>
-                        <field name="message" />
+                        <field name="content_send" />
                     </group>
                     <footer>
                         <button name="send_message" string="Send" type="object" />

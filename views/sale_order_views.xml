@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+        <!--            <xpath expr="//header" position="inside">-->
+        <!--                <div class="alert alert-info text-center o_form_header" role="alert">-->
+        <!--                    <a class="close" data-dismiss="alert" href="#">x</a>-->
+        <!--                    <div>-->
+        <!--                        <strong>Rappel</strong>-->
+        <!--                    </div>-->
+        <!--                    <div>-->
+        <!--                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa expedita itaque minus non,-->
+        <!--                            perferendis quis recusandae. Accusamus aliquam eius facere hic minus nam nemo quam quibusdam-->
+        <!--                            quisquam repellendus, suscipit unde.</p>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </xpath>-->
         <!--		<record id="reservation_sale_order_tree" model="ir.ui.view">-->
         <!--			<field name="name">reservation_sale_order_tree</field>-->
         <!--			<field name="model">sale.order</field>-->
