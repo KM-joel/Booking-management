@@ -77,6 +77,13 @@
                             <h1>
                                 <field name="reference" />
                             </h1>
+                            <h2>
+                                <field
+                  name="description"
+                  widget="code"
+                  background_color="black"
+                />
+                            </h2>
                         </div>
                         <group>
                             <group>

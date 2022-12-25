@@ -51,6 +51,7 @@ class Reservation(models.Model):
         selection=[("sale.order", "Sales"), ("account.move", "Invoices")],
         string="Records",
     )
+    description = fields.Char("Describe")
 
     @api.model
     def create(self, vals):
