@@ -75,15 +75,13 @@
                         <div class="oe_title">
                             <!--              <label for="reference"/>-->
                             <h1>
-                                <field name="reference" />
-                            </h1>
-                            <h2>
                                 <field
-                  name="description"
+                  name="reference"
                   widget="code"
                   background_color="black"
                 />
-                            </h2>
+                            </h1>
+
                         </div>
                         <group>
                             <group>

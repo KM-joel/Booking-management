@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="booking_management.playground" owl="1">
+        <div class="p-3">
+            <Card>
+                <t t-set-slot="title">My First Card</t>
+                <t t-set-slot="default">Some quick example text...</t>
+            </Card>
+            <Counter />
+        </div>
+    </t>
+</templates>

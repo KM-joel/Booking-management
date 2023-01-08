@@ -6,6 +6,9 @@ from odoo.addons.portal.controllers.portal import CustomerPortal, pager as porta
 
 
 class PortalReservation(CustomerPortal):
+    def __init__(self):
+        pass
+
     def _prepare_portal_layout_values(self):
         values = super(PortalReservation, self)._prepare_portal_layout_values()
         # client_id = (
@@ -156,3 +159,12 @@ class PortalReservation(CustomerPortal):
     @http.route("/reservation/update", type="http", auth="user", website=True)
     def update_reservation(self, **post):
         pass
+
+
+class OwlPlaygroung(http.Controller):
+    def __init__(self):
+        pass
+
+    @http.route(["/playgroung"], type="http", auth="public")
+    def show_playgroung(self):
+        return r.render("booking_management.playground")

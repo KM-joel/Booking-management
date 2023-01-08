@@ -1,4 +1,5 @@
 from . import (
+    ir_ui_view,
     account_move,
     res_company,
     res_config_settings,

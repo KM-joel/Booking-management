@@ -60,12 +60,20 @@ repos:
         args:
           - --plugin=@prettier/plugin-xml
         files: \.(css|htm|html|js|json|jsx|less|md|scss|toml|ts|xml|yaml|yml)$
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.32.0
-    hooks:
-      - id: eslint
-        verbose: true
-        args: ["--color", "--fix", "--parser-options", "{sourceType: 'module'}"]
+  #  - repo: https://github.com/pre-commit/mirrors-eslint
+  #    rev: v7.32.0
+  #    hooks:
+  #      - id: eslint
+  #        verbose: true
+  #        args:
+  #          [
+  #            "--color",
+  #            "--fix",
+  #            "--parser-options",
+  #            "{sourceType: 'module'}",
+  #            "--parser-options",
+  #            "{ecmaVersion: 2019}",
+  #          ]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
