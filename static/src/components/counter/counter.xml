@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="booking_management.counter" owl="1">
-        <p>
-            Counter: <t t-esc="state.val" />
-        </p>
-         <button class="btn btn-primary" t-on-click="increment">Increment</button>
+        <div class="bg-white border border-primary rounded mt-3 p-3">
+            <p>
+                Counter: <t t-esc="state.val" />
+            </p>
+            <button class="btn btn-primary" t-on-click="increment">Increment</button>
+        </div>
     </t>
 </templates>

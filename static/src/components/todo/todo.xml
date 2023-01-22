@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="booking_management.Todo" owl="1">
+        <div class="d-flex">
+            <div class="w-100">
+                <div class="form-check">
+                    <input
+            class="form-check-input"
+            type="checkbox"
+            t-att-id="props.id"
+            t-att-checked="props.done"
+            t-on-click="onClick"
+          />
+                    <label
+            class="form-check-label"
+            t-att-for="props.id"
+            t-att-class="props.done ? 'text-decoration-line-through text-muted' : '' "
+          >
+<!--                        <t t-esc="props.id"/>.-->
+                        <t t-esc="props.description" />
+                    </label>
+                </div>
+            </div>
+            <div class="flex-shrink-1">
+                <span
+          role="button"
+          class="fa fa-remove text-danger"
+          t-on-click="onRemove"
+        />
+            </div>
+        </div>
+    </t>
+</templates>

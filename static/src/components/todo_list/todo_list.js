@@ -3,6 +3,7 @@
 import {useAutofocus} from "../../utils";
 
 import {Component, useState} from "@odoo/owl";
+import {Todo} from "../todo/todo";
 
 export class TodoList extends Component {
   setup() {
@@ -11,18 +12,28 @@ export class TodoList extends Component {
     useAutofocus("todoListInput");
   }
   addTodo(ev) {
-    if (ev.target.value != "") {
+    if (ev.key === "Enter" && ev.target.value != "") {
       this.todoList.push({
         id: this.nextId++,
         description: ev.target.value,
         done: false,
       });
       ev.target.value = "";
-
-      console.log("+++++++++++++++++++++++", useAutofocus);
-      console.log("+++++++++++++++++++++++", ev.target.value);
+    }
+  }
+  toggleTodo(todoId) {
+    const todo = this.todoList.find((todo) => todo.id === todoId);
+    if (todo) {
+      todo.done = !todo.done;
+    }
+  }
+  removeTodo(todoId) {
+    const todoIndex = this.todoList.findIndex((todo) => todo.id == todoId);
+    if (todoIndex >= 0) {
+      this.todoList.splice(todoIndex, 1);
     }
   }
 }
 
+TodoList.components = {Todo};
 TodoList.template = "booking_management.TodoList";

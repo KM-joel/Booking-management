@@ -6,9 +6,7 @@
                     <t t-call-assets="booking_management.assets_playground" />
                 </head>
                 <body>
-                    <div class="box">
 
-                    </div>
                 </body>
               </html>
           </template>

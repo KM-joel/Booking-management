@@ -8,7 +8,7 @@ export class Counter extends Component {
   }
 
   increment() {
-    this.state.val += 1;
+    this.state.val++;
   }
 }
 Counter.template = "booking_management.counter";

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="booking_management.playground" owl="1">
-        <div class="p-3">
+        <nav class="nav">
+            <ul>
+                <l1>Accueil</l1>
+                <l1>Services</l1>
+                <l1>Contact</l1>
+            </ul>
+        </nav>
+        <div class="container-sm">
             <Card>
                 <t t-set-slot="title">My First Card</t>
                 <t t-set-slot="default">Some quick example text...</t>
