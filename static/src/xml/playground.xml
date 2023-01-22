@@ -6,7 +6,10 @@
                 <t t-set-slot="title">My First Card</t>
                 <t t-set-slot="default">Some quick example text...</t>
             </Card>
+
             <Counter />
+
+            <TodoList />
         </div>
     </t>
 </templates>

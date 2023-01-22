@@ -165,6 +165,6 @@ class OwlPlaygroung(http.Controller):
     def __init__(self):
         pass
 
-    @http.route(["/playgroung"], type="http", auth="public")
+    @http.route(["/owl/playgroung"], type="http", auth="public")
     def show_playgroung(self):
         return r.render("booking_management.playground")

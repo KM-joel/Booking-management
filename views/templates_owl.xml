@@ -1,16 +1,16 @@
 <odoo>
     <data>
           <template id="booking_management.playground" name="Awesome T-Shirt thank you">
-            <html>
+              <html>
                 <head>
                     <t t-call-assets="booking_management.assets_playground" />
                 </head>
-                <body style="margin: 0; background: #D9D9D9;">
-                    <div class="container">
+                <body>
+                    <div class="box">
 
                     </div>
                 </body>
-            </html>
+              </html>
           </template>
     </data>
 </odoo>

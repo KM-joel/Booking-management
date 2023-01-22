@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="booking_management.TodoList" owl="1">
+        <div class="bg-white border border-primary rounded mt-3 p-3">
+<!--            <input class="form-control mb-3" type="text" placeholder="Add a todo" t-on-click="addTodo" t-ref="todoListInput"/>-->
+            <input
+        class="form-control mb-3"
+        type="text"
+        placeholder="Add a todo"
+        t-on-keyup="addTodo"
+        t-ref="todoListInput"
+      />
+        </div>
+    </t>
+</templates>
