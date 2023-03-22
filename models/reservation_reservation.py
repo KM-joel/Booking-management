@@ -111,11 +111,11 @@ class Reservation(models.Model):
                 > 1
                 else "warning"
             )
+            type_mess = _("Vous avez valide votre reservation avec success Mr. %s")
             if type_notif == "success":
                 type_mess = _(
                     "Vous avez valide votre reservation avec success cher client %s"
                 )
-            type_mess = _("Vous avez valide votre reservation avec success Mr. %s")
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",
@@ -143,11 +143,10 @@ class Reservation(models.Model):
         duration = (
             self.reservation_duration_month * 30 + self.reservation_duration_day
         ) * 24 + self.reservation_duration_hours
-        price = 0
         order = self.env["sale.order"].search([], limit=1)
+        price = 140.00
         if duration < 10:
             price = 150.00
-        price = 140.00
         sale_order_cost = order.create(
             {
                 "date_order": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -177,7 +176,6 @@ class Reservation(models.Model):
     )
     def create_many_quotation(self):
         users = set(self.client_id)
-        price = 0
         for user in users:
             reserve = [record for record in self if record.client_id == user]
             sale_order_cost = self.env["sale.order"].create(
@@ -196,9 +194,9 @@ class Reservation(models.Model):
                         )
                         * 24
                     )
+                    price = 140.00
                     if duration < 10:
                         price = 150.00
-                    price = 140.00
                     sale_order_cost.order_line = [
                         (
                             0,
