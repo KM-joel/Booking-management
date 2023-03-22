@@ -1,5 +1,5 @@
 <odoo>
-    <data>
+
           <template id="booking_management.playground" name="Awesome T-Shirt thank you">
               <html>
                 <head>
@@ -10,5 +10,4 @@
                 </body>
               </html>
           </template>
-    </data>
 </odoo>

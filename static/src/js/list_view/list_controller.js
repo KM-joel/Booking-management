@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import {Component, useState, onWillStart, onWillUpdateProps} from "@odoo/owl";
+import {Component, onWillStart, useState} from "@odoo/owl";
 import {Layout} from "@web/search/layout";
 import {useService} from "@web/core/utils/hooks";
 

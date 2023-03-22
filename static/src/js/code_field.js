@@ -1,8 +1,8 @@
 /** @odoo-module **/
 
 const {xml, Component} = owl;
-import {standardFieldProps} from "@web/views/fields/standard_field_props";
 import {registry} from "@web/core/registry";
+import {standardFieldProps} from "@web/views/fields/standard_field_props";
 
 export class CodeField extends Component {
   setup() {

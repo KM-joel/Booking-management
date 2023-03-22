@@ -1,9 +1,8 @@
 /** @odoo-module **/
 
 // import {browser} from "@web/core/browser/browser";
-import {mount} from "@odoo/owl";
+const {mount} = owl;
 import {Playground} from "./js/playground";
-
 import {templates} from "@web/core/assets";
 
 owl.whenReady(() => {

@@ -3,7 +3,7 @@
 import {Component} from "@odoo/owl";
 
 export class Todo extends Component {
-  onClick(ev) {
+  onClick() {
     this.props.toggleState(this.props.id);
   }
   onRemove() {

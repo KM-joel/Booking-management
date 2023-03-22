@@ -1,6 +1,4 @@
 odoo.define("booking_management.booking_management_reservation", function (require) {
-  "use strict";
-
   const core = require("web.core");
   const _t = core._t;
 

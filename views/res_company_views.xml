@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <!-- Inherit Form View to Modify it -->
         <record id="base_view_company_form_inherit" model="ir.ui.view">
             <field name="name">base.view.company.form.inherit</field>
@@ -11,13 +11,13 @@
                 <xpath expr="//field[@name='phone']" position="after">
                     <!-- Add your fields or attributes here -->
                     <field
-            name="token_whatsapp"
-            string="Token whatsapp"
-            placeholder="https://eu102.chat-api.com/instance99645/sendMessage?token=iwu09tzu212lk"
-          />
+          name="token_whatsapp"
+          string="Token whatsapp"
+          placeholder="https://eu102.chat-api.com/instance99645/sendMessage?token=iwu09tzu212lk"
+        />
                 </xpath>
 
             </field>
         </record>
-    </data>
+
 </odoo>

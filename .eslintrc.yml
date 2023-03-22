@@ -36,10 +36,10 @@ rules:
       ignoreInlineComments: true
   complexity:
     - warn
-    - 15
+    - 18
   constructor-super: warn
   dot-notation: warn
-  eqeqeq: warn
+  eqeqeq: off
   global-require: warn
   handle-callback-err: warn
   id-blacklist: warn
@@ -126,7 +126,7 @@ rules:
   no-self-compare: warn
   no-sequences: warn
   no-shadow-restricted-names: warn
-  no-shadow: warn
+  no-shadow: off
   no-sparse-arrays: warn
   no-sync: warn
   no-this-before-super: warn

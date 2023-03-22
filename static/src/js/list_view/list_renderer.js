@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import {useState, Component} from "@odoo/owl";
+import {Component} from "@odoo/owl";
 import {ListItem} from "../components/list_item/list_item";
 
 export class ListRenderer extends Component {

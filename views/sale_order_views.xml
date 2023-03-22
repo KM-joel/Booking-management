@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
         <!--            <xpath expr="//header" position="inside">-->
         <!--                <div class="alert alert-info text-center o_form_header" role="alert">-->
         <!--                    <a class="close" data-dismiss="alert" href="#">x</a>-->
@@ -32,27 +31,27 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']">
                     <button
-            type="object"
-            name="open_view_reservations"
-            class="oe_stat_button"
-            position="inside"
-            icon="fa-shopping-cart"
-            attrs="{'invisible': [('total_reservation', '=', 0)]}"
-          >
+          type="object"
+          name="open_view_reservations"
+          class="oe_stat_button"
+          position="inside"
+          icon="fa-shopping-cart"
+          attrs="{'invisible': [('total_reservation', '=', 0)]}"
+        >
                         <field
-              name="total_reservation"
-              widget="statinfo"
-              string="Reservations"
-            />
+            name="total_reservation"
+            widget="statinfo"
+            string="Reservations"
+          />
                     </button>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="count_client_group" />
                 </xpath>
                 <xpath
-          expr="//form//sheet//notebook//page[@name='order_lines']"
-          position="before"
-        >
+        expr="//form//sheet//notebook//page[@name='order_lines']"
+        position="before"
+      >
                     <page string="List of reservations">
                         <field name="reservation_ids">
                             <tree editable="bottom">
@@ -64,20 +63,20 @@
                                 <field name="reservation_duration_day" />
                                 <field name="reservation_duration_month" />
                                 <field
-                  name="state"
-                  string="Status"
-                  widget="badge"
-                  decoration-muted="state == 'new'"
-                  decoration-primary="state == 'confirmed'"
-                  decoration-success="state == 'validated'"
-                  decoration-danger="state == 'canceled'"
-                />
+                name="state"
+                string="Status"
+                widget="badge"
+                decoration-muted="state == 'new'"
+                decoration-primary="state == 'confirmed'"
+                decoration-success="state == 'validated'"
+                decoration-danger="state == 'canceled'"
+              />
                                 <button
-                  type="object"
-                  name="next_step"
-                  class="oe_highlight fa fa-fast-forward"
-                  attrs="{'invisible': [('state', 'in', ['validated', 'canceled'])]}"
-                />
+                type="object"
+                name="next_step"
+                class="oe_highlight fa fa-fast-forward"
+                attrs="{'invisible': [('state', 'in', ['validated', 'canceled'])]}"
+              />
                             </tree>
                         </field>
                     </page>
@@ -95,19 +94,18 @@
 
         <!-- menu categories -->
         <menuitem
-      name="Quote"
-      groups="group_reservation_manager"
-      id="quote_category"
-      parent="booking_management.gestion_des_reservations_menu_root"
-    />
+    name="Quote"
+    groups="group_reservation_manager"
+    id="quote_category"
+    parent="booking_management.gestion_des_reservations_menu_root"
+  />
         <!--	              groups="booking.management.group_reservation_manager"-->
 
         <!-- actions -->
         <menuitem
-      name="List of quote"
-      id="reservation_devis_tree"
-      parent="quote_category"
-      action="reservation_sale_order_act_window"
-    />
-    </data>
+    name="List of quote"
+    id="reservation_devis_tree"
+    parent="quote_category"
+    action="reservation_sale_order_act_window"
+  />
 </odoo>

@@ -255,12 +255,11 @@ class Reservation(models.Model):
             progress = 0
             if rec.state == "new":
                 progress = 25
-            elif rec.state == "confirmed":
+            if rec.state == "confirmed":
                 progress = 75
-            elif rec.state == "validated":
+            if rec.state == "validated":
                 progress = 100
-            else:
-                rec.progress = progress
+            rec.progress = progress
 
     # def _message_post_after_hook(self, message, msg_vals):
     #        res = super(SaleOrder, self)._message_post_after_hook(message, msg_vals)

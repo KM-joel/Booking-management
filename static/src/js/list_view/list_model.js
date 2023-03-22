@@ -15,9 +15,7 @@ export class ListModel {
   }
 
   async load() {
-    let result = await this.keepLast.add(
-      this.orm.searchRead(this.resModel, domain, [])
-    );
+    const result = await this.keepLast.add(this.orm.searchRead(this.resModel, [], []));
     this.data = result;
   }
 }

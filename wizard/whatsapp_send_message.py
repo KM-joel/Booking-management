@@ -19,4 +19,5 @@ class WhatsappSendMessage(models.TransientModel):
                 raise ValidationError(_("Put the token in the company"))
             else:
                 params = {"phone": self.mobile, "body": self.content_send}
-                requests.post(token, params=params)
+                response = requests.post(token, params=params, timeout=60)
+                response.raise_for_status()

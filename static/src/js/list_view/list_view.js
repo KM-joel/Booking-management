@@ -1,10 +1,10 @@
 /** @odoo-module **/
-import {_t} from "@web/core/l10n/translation";
-import {registry} from "@web/core/registry";
 
 import {ListController} from "./list_controller";
 import {ListModel} from "./list_model";
 import {ListRenderer} from "./list_renderer";
+import {_t} from "@web/core/l10n/translation";
+import {registry} from "@web/core/registry";
 
 export const owlListView = {
   type: "owl_list",
@@ -17,7 +17,7 @@ export const owlListView = {
 
   props(genericProps, view) {
     const {ArchParser} = view;
-    const {arch, relatedModels} = genericProps;
+    const {arch} = genericProps;
     const archInfo = new ArchParser().parse(arch);
     return {
       ...genericProps,
