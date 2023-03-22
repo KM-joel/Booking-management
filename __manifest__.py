@@ -36,9 +36,20 @@
             "/booking_management/static/src/css/style.scss",
         ],
         "web.assets_backend": [
-            "/booking_management/static/src/js/owl_view.js",
+            # "/booking_management/static/src/components/list_item/owl_view.js",
             "/booking_management/static/src/js/popup_form.js",
             "/booking_management/static/src/js/code_field.js",
+            "/booking_management/static/src/components/list_item/list_item.scss",
+            "/booking_management/static/src/components/list_item/list_item.js",
+            "/booking_management/static/src/components/list_item/list_item.xml",
+            # "/booking_management/static/src/list_view/owl_tree_arch_parser.js",
+            "/booking_management/static/src/js/list_view/list_model.js",
+            "/booking_management/static/src/js/list_view/list_controller.js",
+            "/booking_management/static/src/js/list_view/list_controller.xml",
+            # "/booking_management/static/src/js/list_view/list_view.scss",
+            "/booking_management/static/src/js/list_view/list_renderer.js",
+            "/booking_management/static/src/js/list_view/list_renderer.xml",
+            "/booking_management/static/src/js/list_view/list_view.js",
         ],
         "booking_management.assets_playground": [
             # bootstrap
