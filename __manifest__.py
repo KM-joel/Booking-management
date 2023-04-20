@@ -2,13 +2,13 @@
     "name": "BOOKING",
     "summary": """
         management of reservation""",
-    "author": "k.joel, Odoo Community Association (OCA)",
+    "author": "KARIZMA Conseil (KZM)",
     "website": "https://karizma-conseil.com/",
     "license": "AGPL-3",
     # Categories can be used to filter modules in modules listing
     # for the full list
     "category": "Uncategorized",
-    "version": "16.0.1.0.0",
+    "version": "16.0.0.0.1",
     # any module necessary for this one to work correctly
     "depends": ["base", "sale", "hr", "hr_recruitment", "web", "contacts"],
     "application": True,
